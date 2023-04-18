@@ -9,5 +9,5 @@ Alex:
 1. Agregar jacobiano en la guía
 2. Revisar y corregir la Guía
 3. Probar código de ROS en una pc del lab
-
+4. Averiguar el tamaño de los cubos para Lynng
 
