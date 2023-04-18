@@ -1,0 +1,1047 @@
+ Program
+   Init Variables
+   BeforeStart
+     BeforeStart
+       Autostart
+         MoveJ
+           relAutostart
+         If point_dist(get_actual_tcp_pose(),pHome)>10/1000
+           If vp_CHECKPOINT≠p[0,0,0,0,0,0]
+             MoveL
+               vp_CHECKPOINT
+             If point_dist(get_actual_tcp_pose(),pHome)≥point_dist(get_actual_tcp_pose(),pHomeTransit)
+               MoveJ
+                 pHomeTransit
+             MoveJ
+               pHome
+             ResetWrist
+               aJointAngles≔get_actual_joint_positions()
+               aJointAngles[5]=d2r(47)
+               MoveJ
+                 aJointAngles
+           Else
+             sync()
+         Else
+           sync()
+       DashboardSocket
+         socket_open("127.0.0.1", 29999, "internal")
+       I/O
+         I/O_Input
+           rLaserSensor≔1
+           Comment
+         I/O_Output
+           rGripperOpen≔4
+           rGripperClose≔5
+           Comment
+       TCPs
+         tTCP_Laser≔p[0, 0, 235.23/1000, 0, 0, 0]
+         tTCP_Grip≔p[0, 0, 242.73/1000, 0, 0, 0]
+         tTCP_Dish≔p[0, 0, 0, 247.65/1000, 0, 0]
+       Waypoints
+         If  False 
+           MoveL
+             pHome
+           MoveL
+             PickMagazine
+               pMagPickAbv
+               pVisionStackTop
+               pAgarStackTop
+               VisionLid
+                 pVisionLidBaseZ
+                 vpVisionLidPick≔pose_trans(pVisionLidBaseZ, p[0,0, fVisionLidZ*iStackIn2Vision, 0, 0, 0])
+                 pVisionStackTop
+                 Comment
+               AgarPlate
+                 pAgarPlateBaseZ
+                 vpAgarPlatePick≔pose_trans(pAgarPlateBaseZ, p[0,0, fAgarDishZ*-iStackIn1Agar, 0, 0, 0])
+                 Comment
+             PlaceVisionLid
+               pVLidPlaceApp
+               pVLidPlaceAbv
+               pVLidPlace
+               Comment
+             AgarPlateRegrip
+               pReGripAbv
+               pReGripPlace
+             AgarPlateLidRemoval
+               pLidRmvAbv
+               pLidRmvFront
+               pLidRmvIn
+             SampleHands
+               pHandsBelow
+               pTestFinger
+             SampleArms
+               pArmsAbove
+               pArmLAbv
+               pArmRAbv
+               fArmsOffset≔100/1000
+             LockAgarToVisionLid
+               pVLidPlaceApp
+               pVLidPlaceAbv
+               pVLidPlace
+             PlaceSample
+               pStackOutAbv
+               pStackOut1Abv
+               pStackOut2Abv
+               pStackOutBase1
+               pStackOutBase2
+             Preload
+               pPreloadBaseZ
+       Variables
+         State
+           iStateIn≔0
+           iStateOut≔0
+           iLastState≔0
+           iError≔0
+           bLaserSensor≔get_tool_digital_in(rLaserSensor)
+           bFreeDriving≔ False 
+         Measurements
+           fVisionLidZ≔10.541/1000
+           'fAgarDishZ≔14.1/1000'
+           fAgarDishZ≔13.4/1000
+           fSampleDoneZ≔21.4586/1000
+           fMagazineBaseZ≔0
+           fMagazineZ≔276.225/1000
+           fReGripDegree≔d2r(90)
+           fFingerForce≔0.5
+           fForceTimeFloor≔0.125
+         MoveL
+           fMoveLSpd≔1500/1000
+           fMoveLAccel≔10000/1000
+           fMoveLPose≔p[0,0,0,0,0,0]
+         Comment
+       Registers
+         RegisterInput
+           Integers
+             rStateIn≔0
+             rStackIn1Agar≔1
+             rStackIn2Vision≔2
+             rStackOut1≔3
+             rStackOut2≔4
+             rErrorIn≔5
+           Float
+             rCameraX≔0
+             rCameraY≔1
+             rCameraZ≔2
+             rCameraRx≔3
+             rCameraRy≔4
+             rCameraRz≔5
+           Comment
+         RegisterOutput
+           Integers
+             rStateOut≔0
+             rError≔1
+             rStateConfirm≔10
+           Comment
+         Comment
+       Scripts
+         Script: GripperOn.script
+         Script: GripperOff.script
+         Script: GripperPowerOff.script
+         Script: regripAngle.script_bak
+         Comment
+       'bManualControl≔'Manual Control?''
+       bManualControl≔ False 
+       iStackOut1≔0
+       iStackOut2≔0
+       iFinger≔1
+   Robot Program
+     If bManualControl
+       iStateIn≔'state'
+     States
+       Switch iStateIn
+         Case 0
+           Idle
+             sync()
+             Comment
+         Case 1
+           Home
+             vp_CHECKPOINT≔pHomeTransit
+             If point_dist(get_actual_tcp_pose(),pHome)≥point_dist(get_actual_tcp_pose(),pHomeTransit)
+               MoveJ
+                 pHomeTransit
+             MoveJ
+               pHome
+             ResetWrist
+               aJointAngles≔get_actual_joint_positions()
+               aJointAngles[5]=d2r(72)
+               MoveJ
+                 aJointAngles
+             Comment
+         Case 2
+           VisionLid
+             Set
+             'VisionLidPick'
+             VisionLidPick
+               GripperOn(0,0)
+               ApproachMag
+                 vp_CHECKPOINT≔pMagPickAbv
+                 MoveJ
+                   pMagPickAbv
+                 MoveL
+                   pVisionStackTop
+               ManualAssignVisionLid
+                 If bManualControl
+                   iStackIn2Vision≔'number of vision lids?'
+                   iStackIn2Vision≔iStackIn2Vision-1
+                   Loop iStackIn2Vision<-1
+                     iStackIn2Vision≔'number of vision lids?'
+               AssignVisionLid
+                 vpVisionLidPick≔pose_trans(pVisionLidBaseZ, p[0,0, -1*fVisionLidZ*iStackIn2Vision, 0, 0, 0])
+                 vpTargetApp≔pose_trans(vpVisionLidPick, p[0,0, -25/1000, 0, 0, 0])
+               PickVisionLid
+                 vp_CHECKPOINT≔pVisionStackTop
+                 MoveL
+                   vpTargetApp
+                 GripperOff()
+                 MoveL
+                   vpVisionLidPick
+                 GripperOn()
+               If iStackIn2Vision>0
+                 Separate
+                   'lift'
+                   'vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-1/1000,0,0,0])'
+                   'MoveL'
+                   'tilt'
+                   'vpTargetPos≔pose_trans(vpTargetPos, p[0,0,0,0,-d2r(5),0])'
+                   vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,0,0,-d2r(5),0])
+                   MoveL
+                     vpTargetPos
+                   'lift'
+                   vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-10/1000,0,-d2r(5),0])
+                   MoveL
+                     vpTargetPos
+               ExitVision
+                 MoveL
+                   pVisionStackTop
+               Comment
+             VisionLidPlace
+               vp_CHECKPOINT≔pVLidPlaceAbv
+               Set
+               MoveJ
+                 pVLidPlaceApp
+               MoveJ
+                 pVLidPlaceAbv
+               MoveL
+                 pVLidPlace
+                   Until (tool_contact_detection)
+               GripperOff()
+               MoveL
+                 pVLidPlaceAbv
+               MoveJ
+                 pVLidPlaceApp
+             Comment
+         Case 3
+           AgarPlate
+             Set
+             AgarPlatePick
+               GripperOn(0,0)
+               ApproachMag
+                 vp_CHECKPOINT≔pMagPickAbv
+                 MoveJ
+                   pMagPickAbv
+                 MoveL
+                   pAgarStackTop
+               ManualAssignAgar
+                 If bManualControl
+                   iStackIn1Agar≔'number of agar plates?'
+                   iStackIn1Agar≔iStackIn1Agar-1
+                   Loop iStackIn1Agar<-1
+                     iStackIn1Agar≔'number of vision lids?'
+               AssignAgar
+                 vpAgarPlatePick≔pose_trans(pAgarPlateBaseZ, p[0,0, -1*fAgarDishZ*iStackIn1Agar, 0, 0, 0])
+                 vpTargetApp≔pose_trans(vpAgarPlatePick, p[0,0, -25/1000, 0, 0, 0])
+               PickAgar
+                 vp_CHECKPOINT≔pAgarStackTop
+                 MoveL
+                   vpTargetApp
+                 GripperOff()
+                 MoveL
+                   vpAgarPlatePick
+                 GripperOn()
+               ExitAgar
+                 MoveL
+                   pAgarStackTop
+                 MoveJ
+                   pMagPickAbv
+               Comment
+             AgarPlateRegrip
+               vp_CHECKPOINT≔pReGripAbv
+               Set
+               MoveJ
+                 pReGripAbv
+               vpReGripDrop≔pose_trans(pReGripPlace, p[0,0,-5/1000,0,0,0])
+               MoveL
+                 vpReGripDrop
+                   Until (tool_contact_detection)
+               Wait is_steady()
+               GripperOff()
+               Set
+               MoveL
+                 pReGripPlace
+               If bLaserSensor
+                 SeekAllignmentHole
+                   Set
+                   Move 1
+                     vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(181)])
+                     MoveL
+                       fMoveLPose≔vpTargetPos
+                       movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+                   Move 1.5
+                     vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, 0, d2r(-3)])
+                     MoveL
+                       fMoveLPose≔vpTargetPos
+                       movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+                   stopl(10000)
+                   Reset
+                     MoveJ
+                       pReGripPlace
+                   Move 2
+                     vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(-181)])
+                     MoveL
+                       fMoveLPose≔vpTargetPos
+                       movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+                   Reset
+                     MoveJ
+                       pReGripPlace
+               Else
+                 stopl(1000)
+               GripOffset
+                 vpTargetPos≔pose_trans(vpLaserPose, p[0, 0, -5.8/1000, 0, 0, d2r(90)])
+                 MoveL
+                   vpTargetPos
+               Wait is_steady()
+               GripperOn()
+               Raise
+                 vpTargetPos≔pose_trans(vpTargetPos, p[0, 0, -12/1000, 0, 0, 0])
+                 MoveL
+                   vpTargetPos
+               Set
+               MoveJ
+                 pReGripAbv
+             Comment
+         Case 4
+           AgarPlateLid
+             Set
+             AgarPlateLidRemoval
+               vp_CHECKPOINT≔pLidRmvAbv
+               MoveJ
+                 pLidRmvAbv
+               MoveL
+                 pLidRmvFront
+               MoveL
+                 pLidRmvIn
+               MoveL
+                 pLidRmvAbv
+               MoveJ
+                 pHomeTransit
+               Comment
+             Comment
+         Case 5
+           SampleFingerLeft
+             vp_CHECKPOINT≔pLHandBelow
+             Set
+             MoveJ
+               pLHandBelow
+             Loop 5 times
+               TestFingerLeft
+                 MoveJ
+                   pLHandBelow
+                 ZeroFT
+                   stopj(1)
+                   Wait: 0.25
+                   zero_ftsensor()
+                   Wait: 0.25
+                 MoveJ
+                   pLHandFixed
+                 stopj(1)
+                 Wait: 0.25
+                 'Loop norm(fTcpForceZ)≤fFingerForce'
+                 Loop  not bImpulse
+                   stopj(1)
+                   sync()
+                 rollFinger
+                   Set
+                   fAngleRoll≔15
+                   vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(fAngleRoll), 0])
+                   Force
+                     MoveL
+                       vpTargetPos
+                   vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(2*fAngleRoll), 0])
+                   Force
+                     MoveL
+                       vpTargetPos
+                   Set
+                 MoveJ
+                   pLHandBelow
+                 stopj(1)
+         Case 6
+           SampleFingerRight
+             vp_CHECKPOINT≔pLHandBelow
+             Set
+             If iLastState≠6
+               MoveJ
+                 pLHandBelow
+             MoveJ
+               pRHandBelow
+             Loop 5 times
+               TestFingerRight
+                 MoveJ
+                   pRHandBelow
+                 ZeroFT
+                   stopj(1)
+                   Wait: 0.25
+                   zero_ftsensor()
+                   Wait: 0.25
+                 MoveJ
+                   pRHandFixed
+                 stopj(1)
+                 Wait: 0.25
+                 Loop  not bImpulse
+                   stopj(1)
+                   sync()
+                 rollFinger
+                   Set
+                   fAngleRoll≔15
+                   vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(fAngleRoll), 0])
+                   Force
+                     MoveL
+                       vpTargetPos
+                   vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(2*fAngleRoll), 0])
+                   Force
+                     MoveL
+                       vpTargetPos
+                   Set
+                   stopj(1)
+             MoveJ
+               pRHandBelow
+             MoveJ
+               pLHandBelow
+         Case 7
+           SampleArmL
+             vp_CHECKPOINT≔pArmsAbove
+             Set
+             MoveJ
+               pArmsAbove
+             MoveJ
+               pArmLAbv
+             ZeroFT
+               stopj(1)
+               Wait: 0.5
+               zero_ftsensor()
+               Wait: 0.5
+             rollArms
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,200/1000,0,0,0])
+               Force
+                 MoveL
+                   vpTargetPos
+                     Until (tool_contact_detection)
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(10), 0])
+               Force
+                 MoveL
+                   vpTargetPos
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(20), 0])
+               Force
+                 MoveL
+                   vpTargetPos
+               Comment
+             MoveJ
+               pArmLAbv
+               pArmsAbove
+         Case 8
+           SampleArmR
+             vp_CHECKPOINT≔pArmsAbove
+             Set
+             MoveJ
+               pArmsAbove
+             MoveJ
+               pArmRAbv
+             ZeroFT
+               stopj(1)
+               Wait: 0.5
+               zero_ftsensor()
+               Wait: 0.5
+             rollArms
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,200/1000,0,0,0])
+               Force
+                 MoveL
+                   vpTargetPos
+                     Until (tool_contact_detection)
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(10), 0])
+               Force
+                 MoveL
+                   vpTargetPos
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(20), 0])
+               Force
+                 MoveL
+                   vpTargetPos
+               Comment
+             MoveJ
+               pArmRAbv
+               pArmsAbove
+         Case 9
+           LockAgarToVisionLid
+             vp_CHECKPOINT≔pVLidPlaceAbv
+             Set
+             ApproachFixture
+               If iStateOut≟5 or iStateOut≟6
+                 MoveJ
+                   pLHandBelow
+                 MoveJ
+                   pHomeTransit
+               Else
+                 MoveJ
+                   pHomeTransit
+               MoveJ
+                 pVLidPlaceApp
+               MoveJ
+                 pVLidPlaceAbv
+             ZeroFT
+               stopj(1)
+               Wait: 0.25
+               zero_ftsensor()
+               Wait: 0.25
+             DownTillContact
+               MoveL
+                 pAgarLock
+                   Until (tool_contact_detection)
+                     Force
+                       Seek
+                         vpToolActual≔get_actual_tcp_pose()
+                         fSeekMM≔1/1000
+                         vpTargetPos≔pose_trans(vpToolActual, p[0,-fSeekMM,0,0,0,0])
+                         MoveL
+                           vpTargetPos
+                         vpTargetPos≔pose_trans(vpToolActual, p[fSeekMM,0,0,0,0,0])
+                         MoveL
+                           vpTargetPos
+                         vpTargetPos≔pose_trans(vpToolActual, p[0,fSeekMM,0,0,0,0])
+                         MoveL
+                           vpTargetPos
+                         vpTargetPos≔pose_trans(vpToolActual, p[-fSeekMM,0,0,0,0,0])
+                         MoveL
+                           vpTargetPos
+                     end_force_mode()
+                     vpToolTarget≔pose_trans(pAgarLock, p[0,0,0,0,0,-d2r(24)])
+                     MoveL
+                       vpToolTarget
+                         'Until (tool_contact_detection)'
+                   Until (reached_waypoint)
+             Wait is_steady()
+             Lock
+               '40 degrees'
+               vpTargetPos≔pose_trans(pAgarLock, p[0,0,3/1000,0,0,d2r(40)])
+               Force
+                 MoveL
+                   vpTargetPos
+             end_force_mode()
+             Wait is_steady()
+             ReleasePressure
+               vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,-2/1000,0,0,0])
+               MoveL
+                 vpTargetPos
+             vpTargetPos≔pose_trans(pAgarLock, p[0,0,0,0,0,d2r(90)])
+             MoveL
+               vpTargetPos
+             'vpStartPos≔pose_trans(get_target_tcp_pose(), p[0,0,-1/1000,0,0,0])'
+             vpStartPos≔pose_trans(vpTargetPos, p[0,0,-1/1000,0,0,0])
+             'vpStartPos≔vpTargetPos'
+             GripperOff()
+             MoveAwayForDataMatrix
+               MoveL
+                 pVLidPlaceAbv
+               MoveJ
+                 pVLidPlaceApp
+             Comment
+         Case 10
+           PlaceFinishedSample
+             Set
+             GripperOff()
+             PickLocked
+               vp_CHECKPOINT≔pVLidPlaceAbv
+               MoveL
+                 pVLidPlaceAbv
+               MoveL
+                 vpStartPos
+               Wait is_steady()
+               GripperOn()
+               Wait is_steady()
+               vpStartPos≔get_actual_tcp_pose()
+               vpToolTarget≔pose_trans(get_actual_tcp_pose(), p[0,0,-3/1000,0,0,0])
+               MoveL
+                 vpToolTarget
+               MoveL
+                 pVLidPlaceAbv
+               MoveJ
+                 pVLidPlaceApp
+             TransitionMove
+               vp_CHECKPOINT≔pStackOutAbv
+               MoveJ
+                 pStackOutAbv
+             ManualAssign
+               If bManualControl
+                 iStackOut1≔'how many stack out 1?'
+                 iStackOut2≔'how many stack out 2?'
+             AssignStackOut
+               vpPlaceStack1≔pose_trans(pStackOutBase1, p[0,0,-1*iStackOut1*fSampleDoneZ,0,0,0])
+               vpPlaceStack2≔pose_trans(pStackOutBase2, p[0,0,-1*iStackOut2*fSampleDoneZ,0,0,0])
+             PlaceStackOut
+               If iStackOut1≤iStackOut2
+                 StackOut1
+                   vp_CHECKPOINT≔pStackOut1Abv
+                   vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-5/1000,0,0,0])
+                   MoveL
+                     pStackOut1Abv
+                   MoveL
+                     vpTargetPos
+                   GripperOff()
+                   If bManualControl
+                     iStackOut1≔iStackOut1+1
+                   vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-25/1000,0,0,0])
+                   MoveL
+                     vpTargetPos
+                   GripperOn()
+                   MoveL
+                     pStackOut1Abv
+               Else
+                 StackOut2
+                   vp_CHECKPOINT≔pStackOut2Abv
+                   vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-5/1000,0,0,0])
+                   MoveJ
+                     pStackOut2Abv
+                   MoveL
+                     vpTargetPos
+                   GripperOff()
+                   If bManualControl
+                     iStackOut2≔iStackOut2+1
+                   vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-25/1000,0,0,0])
+                   MoveL
+                     vpTargetPos
+                   GripperOn()
+                   MoveL
+                     pStackOut2Abv
+                     pStackOutAbv
+             Comment
+             MoveJ
+               pHomeTransit
+               pHome
+         Case 11
+           DiscardSample
+             PickLocked
+               vp_CHECKPOINT≔pVLidPlaceAbv
+               MoveL
+                 pVLidPlaceAbv
+               MoveL
+                 vpStartPos
+               Wait is_steady()
+               GripperOn()
+               Wait is_steady()
+               vpStartPos≔get_actual_tcp_pose()
+               vpToolTarget≔pose_trans(get_actual_tcp_pose(), p[0,0,-25.4/1000,0,0,0])
+               MoveL
+                 vpToolTarget
+               MoveJ
+                 pVLidPlaceApp
+             MoveJ
+               pHomeTransit
+             DiscardSample
+               vp_CHECKPOINT≔pLidRmvAbv
+               MoveJ
+                 pDiscardSample
+               Wait: 0.25
+               GripperOff()
+               Wait: 0.5
+               GripperOn()
+             MoveJ
+               pHomeTransit
+             MoveJ
+               pHome
+           Comment
+         Case 12
+           'PreLoad'
+         Case 13
+           Wait: 1.0
+           powerdown()
+         Case 15
+           'Archive'
+           TestCycle
+             iCycle≔'cycle'
+             iStackOut1≔'stack1'
+             iStackOut2≔'stack2'
+             Loop iCycle>0
+               iStackIn1Agar≔iCycle-1
+               iStackIn2Vision≔iCycle-1
+               Home
+                 If point_dist(get_actual_tcp_pose(),pHome)≥point_dist(get_actual_tcp_pose(),pHomeTransit)
+                   MoveJ
+                     pHomeTransit
+                 MoveJ
+                   pHome
+                 ResetWrist
+                   aJointAngles≔get_actual_joint_positions()
+                   aJointAngles[5]=d2r(47.48)
+                   MoveJ
+                     aJointAngles
+                 Comment
+               VisionLid
+                 Set
+                 VisionLidPick
+                   GripperOn(0,0)
+                   ApproachMag
+                     MoveJ
+                       pMagPickAbv
+                     MoveL
+                       pVisionStackTop
+                   'ManualAssignVisionLid'
+                   AssignVisionLid
+                     vpVisionLidPick≔pose_trans(pVisionLidBaseZ, p[0,0, -1*fVisionLidZ*iStackIn2Vision, 0, 0, 0])
+                     vpTargetApp≔pose_trans(vpVisionLidPick, p[0,0, -25/1000, 0, 0, 0])
+                   'bVLidFound≔ True '
+                   'ConditionalPickVision'
+                   PickVisionLid
+                     MoveL
+                       vpTargetApp
+                     GripperOff()
+                     MoveL
+                       vpVisionLidPick
+                     GripperOn()
+                   If iStackIn2Vision>0
+                     Separate
+                       vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-1/1000,0,0,0])
+                       MoveL
+                         vpTargetPos
+                       vpTargetPos≔pose_trans(vpTargetPos, p[0,0,0,0,-d2r(5),0])
+                       MoveL
+                         vpTargetPos
+                       vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-10/1000,0,0,0])
+                       MoveL
+                         vpTargetPos
+                   ExitVision
+                     MoveL
+                       pVisionStackTop
+                   Comment
+                 VisionLidPlace
+                   Set
+                   MoveJ
+                     pVLidPlaceApp
+                   MoveJ
+                     pVLidPlaceAbv
+                   MoveL
+                     pVLidPlace
+                       Until (tool_contact_detection)
+                   GripperOff()
+                   MoveL
+                     pVLidPlaceAbv
+                   MoveJ
+                     pVLidPlaceApp
+                 Comment
+               AgarPlate
+                 Set
+                 AgarPlatePick
+                   GripperOn(0,0)
+                   ApproachMag
+                     MoveJ
+                       pMagPickAbv
+                     MoveL
+                       pAgarStackTop
+                   'ManualAssignAgar'
+                   AssignAgar
+                     vpAgarPlatePick≔pose_trans(pAgarPlateBaseZ, p[0,0, -1*fAgarDishZ*iStackIn1Agar, 0, 0, 0])
+                     vpTargetApp≔pose_trans(vpAgarPlatePick, p[0,0, -25/1000, 0, 0, 0])
+                   'bAgarFound≔ True '
+                   'ConditionalPickAgar'
+                   PickAgar
+                     MoveL
+                       vpTargetApp
+                     GripperOff()
+                     MoveL
+                       vpAgarPlatePick
+                     GripperOn()
+                   ExitAgar
+                     MoveL
+                       pAgarStackTop
+                     MoveJ
+                       pMagPickAbv
+                   Comment
+                 AgarPlateRegrip
+                   Set
+                   MoveJ
+                     pReGripAbv
+                   vpReGripDrop≔pose_trans(pReGripPlace, p[0,0,-5/1000,0,0,0])
+                   MoveL
+                     vpReGripDrop
+                       Until (tool_contact_detection)
+                   Wait is_steady()
+                   GripperOff()
+                   Set
+                   MoveL
+                     pReGripPlace
+                   If bLaserSensor
+                     SeekAllignmentHole
+                       Set
+                       Move 1
+                         vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(181)])
+                         MoveL
+                           fMoveLPose≔vpTargetPos
+                           movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+                       Move 1.5
+                         vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, 0, d2r(-3)])
+                         MoveL
+                           fMoveLPose≔vpTargetPos
+                           movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+                       stopl(10000)
+                       Reset
+                         MoveJ
+                           pReGripPlace
+                       Move 2
+                         vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(-181)])
+                         MoveL
+                           fMoveLPose≔vpTargetPos
+                           movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+                       Reset
+                         MoveJ
+                           pReGripPlace
+                   Else
+                     stopl(1000)
+                   GripOffset
+                     vpTargetPos≔pose_trans(vpLaserPose, p[0, 0, -5.8/1000, 0, 0, d2r(90)])
+                     MoveL
+                       vpTargetPos
+                   Wait is_steady()
+                   GripperOn()
+                   Raise
+                     vpTargetPos≔pose_trans(vpTargetPos, p[0, 0, -12/1000, 0, 0, 0])
+                     MoveL
+                       vpTargetPos
+                   Set
+                   MoveJ
+                     pReGripAbv
+                 Comment
+               AgarPlateLid
+                 Set
+                 AgarPlateLidRemoval
+                   MoveJ
+                     pLidRmvAbv
+                   MoveL
+                     pLidRmvFront
+                   MoveL
+                     pLidRmvIn
+                   MoveL
+                     pLidRmvAbv
+                   MoveJ
+                     pHomeTransit
+                   Comment
+                 Comment
+               'LockAgarToVisionLid'
+               LockAgarToVisionLid
+                 Set
+                 ApproachFixture
+                   If iStateOut≟5 or iStateOut≟6
+                     MoveJ
+                       pLHandBelow
+                     MoveJ
+                       pHomeTransit
+                   Else
+                     MoveJ
+                       pHomeTransit
+                   MoveJ
+                     pVLidPlaceApp
+                   MoveJ
+                     pVLidPlaceAbv
+                 ZeroFT
+                   stopj(1)
+                   Wait: 0.25
+                   zero_ftsensor()
+                   Wait: 0.25
+                 DownTillContact
+                   MoveL
+                     pAgarLock
+                       Until (tool_contact_detection)
+                         Force
+                           Seek
+                             vpToolActual≔get_actual_tcp_pose()
+                             fSeekMM≔1/1000
+                             vpTargetPos≔pose_trans(vpToolActual, p[0,-fSeekMM,0,0,0,0])
+                             MoveL
+                               vpTargetPos
+                             vpTargetPos≔pose_trans(vpToolActual, p[fSeekMM,0,0,0,0,0])
+                             MoveL
+                               vpTargetPos
+                             vpTargetPos≔pose_trans(vpToolActual, p[0,fSeekMM,0,0,0,0])
+                             MoveL
+                               vpTargetPos
+                             vpTargetPos≔pose_trans(vpToolActual, p[-fSeekMM,0,0,0,0,0])
+                             MoveL
+                               vpTargetPos
+                         end_force_mode()
+                         vpToolTarget≔pose_trans(pAgarLock, p[0,0,0,0,0,-d2r(24)])
+                         MoveL
+                           vpToolTarget
+                             'Until (tool_contact_detection)'
+                       Until (reached_waypoint)
+                 Wait is_steady()
+                 Lock
+                   '40 degrees'
+                   vpTargetPos≔pose_trans(pAgarLock, p[0,0,3/1000,0,0,d2r(40)])
+                   Force
+                     MoveL
+                       vpTargetPos
+                 end_force_mode()
+                 Wait is_steady()
+                 ReleasePressure
+                   vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,-2/1000,0,0,0])
+                   MoveL
+                     vpTargetPos
+                 vpTargetPos≔pose_trans(pAgarLock, p[0,0,0,0,0,d2r(90)])
+                 MoveL
+                   vpTargetPos
+                 'vpStartPos≔pose_trans(get_target_tcp_pose(), p[0,0,-1/1000,0,0,0])'
+                 vpStartPos≔pose_trans(vpTargetPos, p[0,0,-1/1000,0,0,0])
+                 'vpStartPos≔vpTargetPos'
+                 GripperOff()
+                 MoveAwayForDataMatrix
+                   MoveL
+                     pVLidPlaceAbv
+                   MoveJ
+                     pVLidPlaceApp
+                 Comment
+               PlaceFinishedSample
+                 Set
+                 GripperOff()
+                 PickLocked
+                   MoveL
+                     pVLidPlaceAbv
+                   MoveL
+                     vpStartPos
+                   Wait is_steady()
+                   GripperOn()
+                   Wait is_steady()
+                   vpStartPos≔get_actual_tcp_pose()
+                   vpToolTarget≔pose_trans(get_actual_tcp_pose(), p[0,0,-3/1000,0,0,0])
+                   MoveL
+                     vpToolTarget
+                   MoveL
+                     pVLidPlaceAbv
+                   MoveJ
+                     pVLidPlaceApp
+                 TransitionMove
+                   MoveJ
+                     pStackOutAbv
+                 'ManualAssign'
+                 AssignStackOut
+                   vpPlaceStack1≔pose_trans(pStackOutBase1, p[0,0,-1*iStackOut1*fSampleDoneZ,0,0,0])
+                   vpPlaceStack2≔pose_trans(pStackOutBase2, p[0,0,-1*iStackOut2*fSampleDoneZ,0,0,0])
+                 PlaceStackOut
+                   If iStackOut1≤iStackOut2
+                     StackOut1
+                       vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-5/1000,0,0,0])
+                       MoveL
+                         pStackOut1Abv
+                       'MoveL'
+                       MoveL
+                         vpTargetPos
+                       GripperOff()
+                       If bManualControl
+                         iStackOut1≔iStackOut1+1
+                       vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-25/1000,0,0,0])
+                       MoveL
+                         vpTargetPos
+                       GripperOn()
+                       MoveL
+                         pStackOut1Abv
+                   Else
+                     StackOut2
+                       vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-5/1000,0,0,0])
+                       MoveJ
+                         pStackOut2Abv
+                       MoveL
+                         vpTargetPos
+                       GripperOff()
+                       If bManualControl
+                         iStackOut2≔iStackOut2+1
+                       vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-25/1000,0,0,0])
+                       MoveL
+                         vpTargetPos
+                       GripperOn()
+                       MoveL
+                         pStackOut2Abv
+                         pStackOutAbv
+                 Comment
+                 MoveJ
+                   pHomeTransit
+                   pHome
+               iCycle≔iCycle-1
+           'TestLock'
+           'TestVisionLid'
+         Default Case
+           Comment
+     AssignFinishedState
+       iStateOut≔iStateIn
+       If iStateOut≠0
+         iLastState≔iStateOut
+     If  not bManualControl
+       Wait iStateIn≠iStateOut
+     sync()
+   Thread_1
+     State
+       If  not  bManualControl
+         Read
+           Integers
+             iStateIn≔read_input_integer_register(rStateIn)
+             iStackIn1Agar≔read_input_integer_register(rStackIn1Agar)
+             iStackIn2Vision≔read_input_integer_register(rStackIn2Vision)
+             iStackOut1≔read_input_integer_register(rStackOut1)
+             iStackOut2≔read_input_integer_register(rStackOut2)
+           Floats
+             fCameraX≔read_input_float_register(rCameraX)
+             fCameraY≔read_input_float_register(rCameraY)
+             fCameraZ≔read_input_float_register(rCameraZ)
+             fCameraRx≔read_input_float_register(rCameraRx)
+             fCameraRy≔read_input_float_register(rCameraRy)
+             fCameraRz≔read_input_float_register(rCameraRz)
+             vpCameraTarget≔p[fCameraX, fCameraY, fCameraZ, fCameraRx, fCameraRy, fCameraRz]
+           Configurable
+             If get_configurable_digital_in(4) and get_configurable_digital_in(5)
+               bReduced≔ False 
+             Else
+               bReduced≔ True 
+           Comment
+         Write
+           Integers
+             write_output_integer_register(rStateOut, iStateOut)
+             write_output_integer_register(rError, iError)
+             write_output_integer_register(rStateConfirm, iStateIn)
+           Comment
+     sync()
+   Thread_2
+     I/O
+       bLaserSensor≔get_tool_digital_in(rLaserSensor)
+       If  not bLaserSensor
+         vpLaserPose≔get_actual_tcp_pose()
+     sync()
+   Thread_3
+     Tool
+       aTcpForce≔get_tcp_force()
+       fTcpForceZ≔aTcpForce[2]
+       fTcpForceRz≔norm(aTcpForce[5])
+       ForceFilter
+         If norm(fTcpForceZ)≥fFingerForce
+           fForceTimer: Start
+           If fForceTimer≥fForceTimeFloor
+             bImpulse≔ True 
+         Else
+           fForceTimer: Reset
+           bImpulse≔ False 
+     sync()
+   Thread_4
+     Freedrive
+       If FreeDriveButton≟ True  and bFreeDriving≟ False 
+         freedrive_mode()
+         GripperOff()
+         bFreeDriving≔ True 
+       ElseIf FreeDriveButton≟ False  and bFreeDriving≟ True 
+         end_freedrive_mode()
+         bFreeDriving≔ False 
+       Else
+         sync()
+     sync()

@@ -1,0 +1,2451 @@
+def Nephron_0201118():
+  set_gravity([0.0, 0.0, 9.82])
+  set_standard_analog_input_domain(0, 1)
+  set_standard_analog_input_domain(1, 1)
+  set_tool_analog_input_domain(0, 1)
+  set_tool_analog_input_domain(1, 1)
+  set_analog_outputdomain(0, 0)
+  set_analog_outputdomain(1, 0)
+  set_input_actions_to_default()
+  set_tool_digital_input_action(0, "freedrive")
+  step_count_9f9de1bb_92a3_4acc_b9fe_c080504ea24e = 0.0
+  thread Step_Counter_Thread_554ce0ad_fb35_488b_b459_827df980ff01():
+    while (True):
+      step_count_9f9de1bb_92a3_4acc_b9fe_c080504ea24e = step_count_9f9de1bb_92a3_4acc_b9fe_c080504ea24e + 1.0
+      sync()
+    end
+  end
+  run Step_Counter_Thread_554ce0ad_fb35_488b_b459_827df980ff01()
+  set_safety_mode_transition_hardness(1)
+  set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+  set_payload(2.06, [0.005, 0.001, 0.077])
+  set_tool_communication(False, 115200, 0, 1, 1.5, 3.5)
+  set_tool_output_mode(0)
+  set_tool_digital_output_mode(0, 2)
+  set_tool_digital_output_mode(1, 2)
+  set_tool_voltage(24)
+  global vp_CHECKPOINT=p[-0.00257, -0.43781, 0.16026, -0.00016, 3.13304, 0.02469]
+  global testAgarStack=p[0.16193913463495138,-0.6388719486202911,-0.33845190609892106,0.019811606276454934,3.1408353976198824,0.006017730510175131]
+  global fForceTimer=0
+  global relAutostart_from_p=p[.133300000046, -.491899999980, .487899999973, .000000000322, 3.141592653590, .000000000322]
+  global relAutostart_to_p=p[.133300000046, -.491899999980, .487899999973, .002768972310, 3.141591433316, .000000000322]
+  global pHomeTransit_p=p[-.002567297237, -.437812059742, .160262064750, -.000157800964, 3.133040151651, .024693829313]
+  global pHomeTransit_q=[1.2565698623657227, -1.714729448358053, 1.914410416279928, -1.752329488793844, -1.5619953314410608, -0.31665355363954717]
+  global pHome_p=p[-.128813708985, -.334829356317, .226680425085, -.000162710025, 3.132999548858, .024744845268]
+  global pHome_q=[0.8325423002243042, -1.9356972179808558, 1.9048145453082483, -1.5219920438579102, -1.5703566710101526, -0.742141071950094]
+  global pMagPickAbv_p=p[.155870046131, -.590625885631, .029137626371, -.007172377191, -3.141063138788, .000045088391]
+  global pMagPickAbv_q=[1.6105898337403672, -1.2048007826516858, 1.701172421918873, -2.0666443672864854, -1.5646876744129166, 1.6158258214963503]
+  global pVisionStackTop_p=p[.163928568470, -.542443264398, .000007102648, -.016211218761, -3.136244645840, -.017868454028]
+  global pVisionStackTop_q=[1.63126802444458, -1.2536391776851197, 1.854621712361471, -2.1595312557616175, -1.5689294973956507, 1.6425719261169434]
+  global pAgarStackTop_p=p[.161676842458, -.642507827340, -.000031895818, .019845664296, 3.140796161190, .019331309093]
+  global pAgarStackTop_q=[1.6150617599487305, -1.0552833837321778, 1.5541637579547327, -2.0568887195982875, -1.562667194996969, 1.628786563873291]
+  global pVisionLidBaseZ_p=p[.162262019107, -.538700919398, -.326963214855, -.016173861446, -3.136250731395, -.017831501823]
+  global pVisionLidBaseZ_q=[1.6269583702087402, -0.5845884841731568, 1.9034622351275843, -2.877449174920553, -1.5710166136371058, 1.6431584358215332]
+  global pAgarPlateBaseZ_p=p[.161854623805, -.638759324978, -.330203522321, .019706627695, 3.140970508514, .019355484248]
+  global pAgarPlateBaseZ_q=[1.6143174171447754, -0.4948811096004029, 1.5985477606402796, -2.6616627178587855, -1.5644906202899378, 1.632448673248291]
+  global pVLidPlaceApp_p=p[.271853318387, -.319973779148, .079987376272, -.000165742181, 3.132996994465, .024815701521]
+  global pVLidPlaceApp_q=[1.9436359405517578, -1.7053657970824183, 2.123507324849264, -1.9767309627928675, -1.5515578428851526, 0.3715074062347412]
+  global pVLidPlaceAbv_p=p[.271110735967, -.197287762352, .017010896192, -.000059551795, 3.140342870143, -.015127335854]
+  global pVLidPlaceAbv_q=[2.1120076179504395, -1.8707782230772914, 2.4334591070758265, -2.1418315372862757, -1.5698650519000452, 2.1113295555114746]
+  global pVLidPlace_p=p[.271103030727, -.197263078289, .004977448796, -.000082493826, 3.140376339209, -.015108502185]
+  global pVLidPlace_q=[2.1118998527526855, -1.846400877038473, 2.4549110571490687, -2.1876331768431605, -1.5699008146869105, 2.1114611625671387]
+  global pReGripAbv_p=p[-.001349326433, -.487261644844, .009861556777, -.000108704946, 3.138270267205, .035458424146]
+  global pReGripAbv_q=[1.295518159866333, -1.4325388234904786, 2.053194824849264, -2.1683274708189906, -1.5679815451251429, 1.2959222793579102]
+  global pReGripPlace_p=p[.000300326704, -.483924869349, -.117184589460, -.000330881520, 3.138236787721, .035461251535]
+  global pReGripPlace_q=[1.2960586547851562, -1.1721825164607544, 2.1802604834186, -2.5557342968382777, -1.5685456434832972, 1.2987189292907715]
+  global pLidRmvAbv_p=p[-.000550000000, -.587820000000, -.070010000000, 2.220999999999, -2.221000000000, .000000000000]
+  global pLidRmvAbv_q=[1.3425129298334966, -1.1104421704272323, 1.8696610006772492, -2.330018684931064, -1.5649318850402665, -0.22609079785869923]
+  global pLidRmvFront_p=p[.000240000000, -.645050000000, -.158880000000, -2.214867657282, 2.212881228890, .005959285177]
+  global pLidRmvFront_q=[1.3621156166508586, -0.8526868803927599, 1.7119105454938293, -2.4184627828938616, -1.56201659569623, -0.2061575715664885]
+  global pLidRmvIn_p=p[.000500000000, -.587830000000, -.155240000000, -2.199632646710, 2.198652418257, .032347538922]
+  global pLidRmvIn_q=[1.3443143865884446, -0.938290014050911, 1.8654893740210312, -2.459844980447018, -1.5658634904055297, -0.22366714556167988]
+  global pHandsBelow_p=p[-.022956236069, -.509067053416, .250557947027, .769439855446, -.000003352142, -.000075179648]
+  global pHandsBelow_q=[0.9749925136566162, -0.6372050803950806, 2.6883934179889124, -2.9449383221068324, 1.1735343933105469, 0.4485645294189453]
+  global pTestFinger_p=p[-.102232065472, -.625031114979, .262525849212, .717016068531, .000040055820, -.000047459766]
+  global pTestFinger_q=[0.993213415145874, -0.7631465953639527, 2.3228214422809046, -2.4991661510863246, 1.209254264831543, 0.4537372589111328]
+  global pArmsAbove_p=p[.005092598687, -.437806373116, .333418737940, -.000243420476, 3.133042065019, .024665729030]
+  global pArmsAbove_q=[1.2740528583526611, -1.70629944423818, 1.4620140234576624, -1.3084238332561036, -1.5621631781207483, -0.301399056111471]
+  global pArmLAbv_p=p[-.224110621177, -.691377571520, .293347005446, .017587712540, -2.903824565441, .102310126022]
+  global pArmLAbv_q=[1.15934419631958, -1.1217239660075684, 0.9565675894366663, -1.5661609929851075, -1.750913445149557, 1.1352896690368652]
+  global pArmRAbv_p=p[.222608450290, -.690599258920, .295000000000, .003358788188, 2.818188159088, .022159931398]
+  global pArmRAbv_q=[1.5414327364408331, -1.0499576308727168, 0.8148676845129428, -1.3101014872021057, -1.241684877708888, 1.5412320556164723]
+  global pStackOutAbv_p=p[-.169744030764, -.587090000000, .024960000000, -3.133890293521, .008023113036, .006779652851]
+  global pStackOutAbv_q=[1.0722721609234709, -1.193985910088653, 1.6987571004513535, -2.070293751783833, -1.5721482477731188, 4.2243250953257565]
+  global pStackOut1Abv_p=p[-.159903872354, -.538521018923, -.000047030542, -3.140967076087, .042875480682, .006620681488]
+  global pStackOut1Abv_q=[1.0466761589050293, -1.2713721555522461, 1.8837421576129358, -2.184409280816549, -1.568329159413473, 4.216587066650391]
+  global pStackOut2Abv_p=p[-.156475249757, -.638729072847, -.000048337676, -3.138374955263, .013127952823, .016861809690]
+  global pStackOut2Abv_q=[1.1333568096160889, -1.0720634025386353, 1.5851314703570765, -2.0849787197508753, -1.5750835577594202, 4.284514904022217]
+  global pStackOutBase1_p=p[-.161246279655, -.538415786491, -.326576747968, -3.140949670824, .042908262804, .006638974497]
+  global pStackOutBase1_q=[1.0427296161651611, -0.585497574215271, 1.9176061789142054, -2.904140134850973, -1.5704529921161097, 4.217580795288086]
+  global pStackOutBase2_p=p[-.159949840730, -.638656590336, -.326044727095, -3.138421139397, .013047922132, .016871940620]
+  global pStackOutBase2_q=[1.127047061920166, -0.5054955047420044, 1.6159504095660608, -2.6824375591673792, -1.5767396132098597, 4.28259801864624]
+  global pPreloadBaseZ_p=p[-.162820941594, -.541780580352, -.329398799252, 3.137259406626, -.000055986658, -.003104678937]
+  global pPreloadBaseZ_q=[1.037656545639038, -0.5736332696727295, 1.9064901510821741, -2.907844205895895, -1.5693524519549769, 4.188817977905273]
+  global pLHandBelow_p=p[-.130647442452, -.595232136855, .238171468032, .769437579666, .003576979248, .000530041193]
+  global pLHandBelow_q=[0.8577783107757568, -0.7159370940974732, 2.396611992512838, -2.6177360020079554, 1.099991798400879, 2.1180009841918945]
+  global pLHandFixed_p=p[-.130391502066, -.648238911007, .285754868186, .769471552130, .003607552080, .000551247148]
+  global pLHandFixed_q=[0.9445211887359619, -0.8775696319392701, 2.2920005957232874, -2.319325109521383, 1.1537504196166992, 2.04315185546875]
+  global pRHandBelow_p=p[.129996747835, -.595239836093, .238127901386, .769504101672, .003568032338, .000595854993]
+  global pRHandBelow_q=[1.556150197982788, -0.7535937589458008, 2.3873050848590296, -2.4355808697142542, 1.5628957748413086, 1.5735077857971191]
+  global pRHandFixed_p=p[.123963918134, -.651364827542, .281590178795, .769553379756, .002459222584, .005180964856]
+  global pRHandFixed_q=[1.543149709701538, -0.8848608297160645, 2.2747791449176233, -2.191893240014547, 1.5541315078735352, 1.5888495445251465]
+  global pAgarLock_p=p[.271041939584, -.197497223134, .004938902652, .000014730790, 3.137987612047, .025050905364]
+  global pAgarLock_q=[2.0947468280792236, -1.8353811703123988, 2.4414919058429163, -2.164300581017965, -1.5549171606646937, 2.0942182540893555]
+  global pDiscardSample_p=p[.002679518118, -.656336226835, -.142806400331, -.001217526171, 3.001658459284, -.887899236213]
+  global pDiscardSample_q=[1.2788027429362452, -0.8283332629965088, 2.1937043368316727, -3.4899603722878614, -1.405688179556233, 1.3344787460748642]
+  global fForceTimer_is_counting=False
+  thread Timer_Thread():
+    while (True):
+      if (fForceTimer_is_counting):
+        fForceTimer = fForceTimer + get_steptime()
+      end
+      sync()
+    end
+  end
+  run Timer_Thread()
+  $ 2 "BeforeStart"
+  $ 3 "BeforeStart"
+  $ 4 "Autostart"
+  $ 5 "MoveJ"
+  $ 6 "relAutostart" "breakAfter"
+  movej(pose_add(get_target_tcp_pose(), pose_sub(relAutostart_to_p, relAutostart_from_p)), a=1.3962634015954636, v=1.0471975511965976)
+  $ 7 "If point_dist(get_actual_tcp_pose(),pHome)>10/1000"
+  if (point_dist( get_actual_tcp_pose (),pHome_p)>10/1000):
+    $ 8 "If vp_CHECKPOINT≠p[0,0,0,0,0,0]"
+    if (vp_CHECKPOINT != p[0,0,0,0,0,0]):
+      $ 9 "MoveL"
+      $ 10 "vp_CHECKPOINT" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(vp_CHECKPOINT, a=1.2, v=0.25)
+      $ 11 "If point_dist(get_actual_tcp_pose(),pHome)≥point_dist(get_actual_tcp_pose(),pHomeTransit)"
+      if (point_dist( get_actual_tcp_pose (),pHome_p) >= point_dist( get_actual_tcp_pose (),pHomeTransit_p)):
+        $ 12 "MoveJ"
+        $ 13 "pHomeTransit" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=17.453292519943293, v=3.141592653589793)
+      end
+      $ 14 "MoveJ"
+      $ 15 "pHome" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pHome_p, qnear=pHome_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 16 "ResetWrist"
+      $ 17 "aJointAngles≔get_actual_joint_positions()"
+      global aJointAngles= get_actual_joint_positions ()
+      $ 18 "aJointAngles[5]=d2r(47)"
+      aJointAngles[5]=d2r(47)
+      $ 19 "MoveJ"
+      $ 20 "aJointAngles" "breakAfter"
+      movej(aJointAngles, a=1.3962634015954636, v=1.0471975511965976)
+    else:
+      $ 21 "Else" "noBreak"
+      $ 22 "sync()"
+      sync()
+    end
+  else:
+    $ 23 "Else" "noBreak"
+    $ 24 "sync()"
+    sync()
+  end
+  $ 25 "DashboardSocket"
+  $ 26 "socket_open('127.0.0.1', 29999, 'internal')"
+  socket_open("127.0.0.1", 29999, "internal")
+  $ 27 "I/O"
+  $ 28 "I/O_Input"
+  $ 29 "rLaserSensor≔1"
+  global rLaserSensor=1
+  $ 30 "Comment"
+  # Comment
+  $ 31 "I/O_Output"
+  $ 32 "rGripperOpen≔4"
+  global rGripperOpen=4
+  $ 33 "rGripperClose≔5"
+  global rGripperClose=5
+  $ 34 "Comment"
+  # Comment
+  $ 35 "TCPs"
+  $ 36 "tTCP_Laser≔p[0, 0, 235.23/1000, 0, 0, 0]"
+  global tTCP_Laser=p[0, 0, 235.23/1000, 0, 0, 0]
+  $ 37 "tTCP_Grip≔p[0, 0, 242.73/1000, 0, 0, 0]"
+  global tTCP_Grip=p[0, 0, 242.73/1000, 0, 0, 0]
+  $ 38 "tTCP_Dish≔p[0, 0, 0, 247.65/1000, 0, 0]"
+  global tTCP_Dish=p[0, 0, 0, 247.65/1000, 0, 0]
+  $ 39 "Waypoints"
+  $ 40 "If  False "
+  if (  False  ):
+    $ 41 "MoveL"
+    $ 42 "pHome" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pHome_p, a=1.2, v=0.25)
+    $ 43 "MoveL"
+    $ 44 "PickMagazine"
+    $ 45 "pMagPickAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pMagPickAbv_p, a=1.2, v=0.25)
+    $ 46 "pVisionStackTop" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVisionStackTop_p, a=1.2, v=0.25)
+    $ 47 "pAgarStackTop" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pAgarStackTop_p, a=1.2, v=0.25)
+    $ 48 "VisionLid"
+    $ 49 "pVisionLidBaseZ" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVisionLidBaseZ_p, a=1.2, v=0.25)
+    $ 50 "vpVisionLidPick≔pose_trans(pVisionLidBaseZ, p[0,0, fVisionLidZ*iStackIn2Vision, 0, 0, 0])"
+    global vpVisionLidPick= pose_trans (pVisionLidBaseZ_p, p[0,0, fVisionLidZ*iStackIn2Vision, 0, 0, 0])
+    $ 51 "pVisionStackTop" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVisionStackTop_p, a=1.2, v=0.25)
+    $ 52 "Comment"
+    # Comment
+    $ 53 "AgarPlate"
+    $ 54 "pAgarPlateBaseZ" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pAgarPlateBaseZ_p, a=1.2, v=0.25)
+    $ 55 "vpAgarPlatePick≔pose_trans(pAgarPlateBaseZ, p[0,0, fAgarDishZ*-iStackIn1Agar, 0, 0, 0])"
+    global vpAgarPlatePick= pose_trans (pAgarPlateBaseZ_p, p[0,0, fAgarDishZ*-iStackIn1Agar, 0, 0, 0])
+    $ 56 "Comment"
+    # Comment
+    $ 57 "PlaceVisionLid"
+    $ 58 "pVLidPlaceApp" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVLidPlaceApp_p, a=1.2, v=0.25)
+    $ 59 "pVLidPlaceAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVLidPlaceAbv_p, a=1.2, v=0.25)
+    $ 60 "pVLidPlace" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVLidPlace_p, a=1.2, v=0.25)
+    $ 61 "Comment"
+    # Comment
+    $ 62 "AgarPlateRegrip"
+    $ 63 "pReGripAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pReGripAbv_p, a=1.2, v=0.25)
+    $ 64 "pReGripPlace" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pReGripPlace_p, a=1.2, v=0.25)
+    $ 65 "AgarPlateLidRemoval"
+    $ 66 "pLidRmvAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pLidRmvAbv_p, a=1.2, v=0.25)
+    $ 67 "pLidRmvFront" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pLidRmvFront_p, a=1.2, v=0.25)
+    $ 68 "pLidRmvIn" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pLidRmvIn_p, a=1.2, v=0.25)
+    $ 69 "SampleHands"
+    $ 70 "pHandsBelow" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pHandsBelow_p, a=1.2, v=0.25)
+    $ 71 "pTestFinger" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pTestFinger_p, a=1.2, v=0.25)
+    $ 72 "SampleArms"
+    $ 73 "pArmsAbove" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pArmsAbove_p, a=1.2, v=0.25)
+    $ 74 "pArmLAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pArmLAbv_p, a=1.2, v=0.25)
+    $ 75 "pArmRAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pArmRAbv_p, a=1.2, v=0.25)
+    $ 76 "fArmsOffset≔100/1000"
+    global fArmsOffset=100/1000
+    $ 77 "LockAgarToVisionLid"
+    $ 78 "pVLidPlaceApp" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVLidPlaceApp_p, a=1.2, v=0.25)
+    $ 79 "pVLidPlaceAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVLidPlaceAbv_p, a=1.2, v=0.25)
+    $ 80 "pVLidPlace" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pVLidPlace_p, a=1.2, v=0.25)
+    $ 81 "PlaceSample"
+    $ 82 "pStackOutAbv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pStackOutAbv_p, a=1.2, v=0.25)
+    $ 83 "pStackOut1Abv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pStackOut1Abv_p, a=1.2, v=0.25)
+    $ 84 "pStackOut2Abv" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pStackOut2Abv_p, a=1.2, v=0.25)
+    $ 85 "pStackOutBase1" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pStackOutBase1_p, a=1.2, v=0.25)
+    $ 86 "pStackOutBase2" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pStackOutBase2_p, a=1.2, v=0.25)
+    $ 87 "Preload"
+    $ 88 "pPreloadBaseZ" "breakAfter"
+    set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+    movel(pPreloadBaseZ_p, a=1.2, v=0.25)
+  end
+  $ 89 "Variables"
+  $ 90 "State"
+  $ 91 "iStateIn≔0"
+  global iStateIn=0
+  $ 92 "iStateOut≔0"
+  global iStateOut=0
+  $ 93 "iLastState≔0"
+  global iLastState=0
+  $ 94 "iError≔0"
+  global iError=0
+  $ 95 "bLaserSensor≔get_tool_digital_in(rLaserSensor)"
+  global bLaserSensor=get_tool_digital_in(rLaserSensor)
+  $ 96 "bFreeDriving≔ False "
+  global bFreeDriving=  False  
+  $ 97 "Measurements"
+  $ 98 "fVisionLidZ≔10.541/1000"
+  global fVisionLidZ=10.541/1000
+  $ 100 "fAgarDishZ≔13.4/1000"
+  global fAgarDishZ=13.4/1000
+  $ 101 "fSampleDoneZ≔21.4586/1000"
+  global fSampleDoneZ=21.4586/1000
+  $ 102 "fMagazineBaseZ≔0"
+  global fMagazineBaseZ=0
+  $ 103 "fMagazineZ≔276.225/1000"
+  global fMagazineZ=276.225/1000
+  $ 104 "fReGripDegree≔d2r(90)"
+  global fReGripDegree=d2r(90)
+  $ 105 "fFingerForce≔0.5"
+  global fFingerForce=0.5
+  $ 106 "fForceTimeFloor≔0.125"
+  global fForceTimeFloor=0.125
+  $ 107 "MoveL"
+  $ 108 "fMoveLSpd≔1500/1000"
+  global fMoveLSpd=1500/1000
+  $ 109 "fMoveLAccel≔10000/1000"
+  global fMoveLAccel=10000/1000
+  $ 110 "fMoveLPose≔p[0,0,0,0,0,0]"
+  global fMoveLPose=p[0,0,0,0,0,0]
+  $ 111 "Comment"
+  # Comment
+  $ 112 "Registers"
+  $ 113 "RegisterInput"
+  $ 114 "Integers"
+  $ 115 "rStateIn≔0"
+  global rStateIn=0
+  $ 116 "rStackIn1Agar≔1"
+  global rStackIn1Agar=1
+  $ 117 "rStackIn2Vision≔2"
+  global rStackIn2Vision=2
+  $ 118 "rStackOut1≔3"
+  global rStackOut1=3
+  $ 119 "rStackOut2≔4"
+  global rStackOut2=4
+  $ 120 "rErrorIn≔5"
+  global rErrorIn=5
+  $ 121 "Float"
+  $ 122 "rCameraX≔0"
+  global rCameraX=0
+  $ 123 "rCameraY≔1"
+  global rCameraY=1
+  $ 124 "rCameraZ≔2"
+  global rCameraZ=2
+  $ 125 "rCameraRx≔3"
+  global rCameraRx=3
+  $ 126 "rCameraRy≔4"
+  global rCameraRy=4
+  $ 127 "rCameraRz≔5"
+  global rCameraRz=5
+  $ 128 "Comment"
+  # Comment
+  $ 129 "RegisterOutput"
+  $ 130 "Integers"
+  $ 131 "rStateOut≔0"
+  global rStateOut=0
+  $ 132 "rError≔1"
+  global rError=1
+  $ 133 "rStateConfirm≔10"
+  global rStateConfirm=10
+  $ 134 "Comment"
+  # Comment
+  $ 135 "Comment"
+  # Comment
+  $ 136 "Scripts"
+  $ 137 "Script: GripperOn.script"
+  def GripperOn(time1=0.25, time2=0.25):
+  	global rGripperOff = 1
+  	global rGripperOn = 0
+  	global bGripperStatus = False
+  	sleep(time1)
+  	set_tool_digital_out(rGripperOff, False)
+  	set_tool_digital_out(rGripperOn, True)
+  	sleep(time2)
+  	bGripperStatus = True
+  	return bGripperStatus
+  end
+  $ 138 "Script: GripperOff.script"
+  def GripperOff(time1=0.25, time2=0.25):
+  	global rGripperOff = 1
+  	global rGripperOn = 0
+  	global bGripperStatus = True
+  	sleep(time1)
+  	set_tool_digital_out(rGripperOn, False)
+  	set_tool_digital_out(rGripperOff, True)
+  	sleep(time2)
+  	bGripperStatus = False
+  	return bGripperStatus
+  end
+  $ 139 "Script: GripperPowerOff.script"
+  def GripperPowerOff():
+  	global rGripperOff = 1
+  	global rGripperOn = 0
+  	global bGripperStatus = True
+  	set_tool_digital_out(rGripperOn, False)
+  	set_tool_digital_out(rGripperOff, False)
+  	bGripperStatus = False
+  	return bGripperStatus
+  end
+  $ 140 "Script: regripAngle.script_bak"
+  def regripAngle():
+  	local jointAngles = get_actual_joint_positions()
+  	local gripOffset = 90
+  	local wrist3 = r2d(jointAngles[5])
+  	local angleLimit = 180
+  	local targetAngle = 0
+  
+  	if (wrist3 + gripOffset > angleLimit):
+  		targetAngle = d2r(wrist3 - 180 - gripOffset)
+  	else:
+  		targetAngle = d2r(wrist3 + gripOffset)
+  	end
+  	return targetAngle
+  end
+  $ 141 "Comment"
+  # Comment
+  $ 143 "bManualControl≔ False "
+  global bManualControl=  False  
+  $ 144 "iStackOut1≔0"
+  global iStackOut1=0
+  $ 145 "iStackOut2≔0"
+  global iStackOut2=0
+  $ 146 "iFinger≔1"
+  global iFinger=1
+  $ 1657 "Thread_1"
+  thread Thread_1():
+    while (True):
+      $ 1658 "State"
+      $ 1659 "If  not  bManualControl"
+      if (  not   bManualControl):
+        $ 1660 "Read"
+        $ 1661 "Integers"
+        $ 1662 "iStateIn≔read_input_integer_register(rStateIn)"
+        global iStateIn=read_input_integer_register(rStateIn)
+        $ 1663 "iStackIn1Agar≔read_input_integer_register(rStackIn1Agar)"
+        global iStackIn1Agar=read_input_integer_register(rStackIn1Agar)
+        $ 1664 "iStackIn2Vision≔read_input_integer_register(rStackIn2Vision)"
+        global iStackIn2Vision=read_input_integer_register(rStackIn2Vision)
+        $ 1665 "iStackOut1≔read_input_integer_register(rStackOut1)"
+        global iStackOut1=read_input_integer_register(rStackOut1)
+        $ 1666 "iStackOut2≔read_input_integer_register(rStackOut2)"
+        global iStackOut2=read_input_integer_register(rStackOut2)
+        $ 1667 "Floats"
+        $ 1668 "fCameraX≔read_input_float_register(rCameraX)"
+        global fCameraX=read_input_float_register(rCameraX)
+        $ 1669 "fCameraY≔read_input_float_register(rCameraY)"
+        global fCameraY=read_input_float_register(rCameraY)
+        $ 1670 "fCameraZ≔read_input_float_register(rCameraZ)"
+        global fCameraZ=read_input_float_register(rCameraZ)
+        $ 1671 "fCameraRx≔read_input_float_register(rCameraRx)"
+        global fCameraRx=read_input_float_register(rCameraRx)
+        $ 1672 "fCameraRy≔read_input_float_register(rCameraRy)"
+        global fCameraRy=read_input_float_register(rCameraRy)
+        $ 1673 "fCameraRz≔read_input_float_register(rCameraRz)"
+        global fCameraRz=read_input_float_register(rCameraRz)
+        $ 1674 "vpCameraTarget≔p[fCameraX, fCameraY, fCameraZ, fCameraRx, fCameraRy, fCameraRz]"
+        global vpCameraTarget=p[fCameraX, fCameraY, fCameraZ, fCameraRx, fCameraRy, fCameraRz]
+        $ 1675 "Configurable"
+        $ 1676 "If get_configurable_digital_in(4) and get_configurable_digital_in(5)"
+        if (get_configurable_digital_in(4)  and  get_configurable_digital_in(5)):
+          $ 1677 "bReduced≔ False "
+          global bReduced=  False  
+        else:
+          $ 1678 "Else" "noBreak"
+          $ 1679 "bReduced≔ True "
+          global bReduced=  True  
+        end
+        $ 1680 "Comment"
+        # Comment
+        $ 1681 "Write"
+        $ 1682 "Integers"
+        $ 1683 "write_output_integer_register(rStateOut, iStateOut)"
+        write_output_integer_register(rStateOut, iStateOut)
+        $ 1684 "write_output_integer_register(rError, iError)"
+        write_output_integer_register(rError, iError)
+        $ 1685 "write_output_integer_register(rStateConfirm, iStateIn)"
+        write_output_integer_register(rStateConfirm, iStateIn)
+        $ 1686 "Comment"
+        # Comment
+      end
+      $ 1687 "sync()"
+      sync()
+    end
+  end
+  threadId_Thread_1 = run Thread_1()
+  $ 1688 "Thread_2"
+  thread Thread_2():
+    while (True):
+      $ 1689 "I/O"
+      $ 1690 "bLaserSensor≔get_tool_digital_in(rLaserSensor)"
+      global bLaserSensor=get_tool_digital_in(rLaserSensor)
+      $ 1691 "If  not bLaserSensor"
+      if (  not  bLaserSensor):
+        $ 1692 "vpLaserPose≔get_actual_tcp_pose()"
+        global vpLaserPose= get_actual_tcp_pose ()
+      end
+      $ 1693 "sync()"
+      sync()
+    end
+  end
+  threadId_Thread_2 = run Thread_2()
+  $ 1694 "Thread_3"
+  thread Thread_3():
+    while (True):
+      $ 1695 "Tool"
+      $ 1696 "aTcpForce≔get_tcp_force()"
+      global aTcpForce=get_tcp_force()
+      $ 1697 "fTcpForceZ≔aTcpForce[2]"
+      global fTcpForceZ=aTcpForce[2]
+      $ 1698 "fTcpForceRz≔norm(aTcpForce[5])"
+      global fTcpForceRz=norm(aTcpForce[5])
+      $ 1699 "ForceFilter"
+      $ 1700 "If norm(fTcpForceZ)≥fFingerForce"
+      global thread_flag_1700=0
+      thread Thread_if_1700():
+        $ 1701 "fForceTimer: Start"
+        fForceTimer_is_counting = True
+        $ 1702 "If fForceTimer≥fForceTimeFloor"
+        if (fForceTimer >= fForceTimeFloor):
+          $ 1703 "bImpulse≔ True "
+          global bImpulse=  True  
+        end
+        thread_flag_1700 = 1
+      end
+      if (norm(fTcpForceZ) >= fFingerForce):
+        global thread_handler_1700=run Thread_if_1700()
+        while (thread_flag_1700 == 0):
+          if not(norm(fTcpForceZ) >= fFingerForce):
+            kill thread_handler_1700
+            thread_flag_1700 = 2
+          else:
+            sync()
+          end
+        end
+      else:
+        thread_flag_1700 = 2
+      end
+      if (thread_flag_1700 == 2):
+        $ 1704 "Else" "noBreak"
+        $ 1705 "fForceTimer: Reset"
+        fForceTimer = 0
+        $ 1706 "bImpulse≔ False "
+        global bImpulse=  False  
+      end
+      $ 1707 "sync()"
+      sync()
+    end
+  end
+  threadId_Thread_3 = run Thread_3()
+  $ 1708 "Thread_4"
+  thread Thread_4():
+    while (True):
+      $ 1709 "Freedrive"
+      $ 1710 "If FreeDriveButton≟ True  and bFreeDriving≟ False "
+      global thread_flag_1710=0
+      thread Thread_if_1710():
+        $ 1711 "freedrive_mode()"
+        freedrive_mode()
+        $ 1712 "GripperOff()"
+        GripperOff()
+        $ 1713 "bFreeDriving≔ True "
+        global bFreeDriving=  True  
+        thread_flag_1710 = 1
+      end
+      if (get_tool_digital_in(0) ==   True    and  bFreeDriving ==   False  ):
+        global thread_handler_1710=run Thread_if_1710()
+        while (thread_flag_1710 == 0):
+          if not(get_tool_digital_in(0) ==   True    and  bFreeDriving ==   False  ):
+            kill thread_handler_1710
+            thread_flag_1710 = 2
+          else:
+            sync()
+          end
+        end
+      else:
+        thread_flag_1710 = 2
+      end
+      if (thread_flag_1710 == 2):
+        $ 1714 "ElseIf FreeDriveButton≟ False  and bFreeDriving≟ True "
+        if (get_tool_digital_in(0) ==   False    and  bFreeDriving ==   True  ):
+          $ 1715 "end_freedrive_mode()"
+          end_freedrive_mode()
+          $ 1716 "bFreeDriving≔ False "
+          global bFreeDriving=  False  
+        else:
+          $ 1717 "Else" "noBreak"
+          $ 1718 "sync()"
+          sync()
+        end
+      end
+      $ 1719 "sync()"
+      sync()
+    end
+  end
+  threadId_Thread_4 = run Thread_4()
+  while (True):
+    $ 147 "Robot Program"
+    $ 148 "If bManualControl"
+    if (bManualControl):
+      $ 149 "iStateIn≔'state'"
+      global iStateIn=request_integer_from_primary_client("state")
+    end
+    $ 150 "States"
+    $ 151 "Switch iStateIn"
+    switch_1 = iStateIn
+    $ 152 "Case 0"
+    if (0 == switch_1):
+      $ 153 "Idle"
+      $ 154 "sync()"
+      sync()
+      $ 155 "Comment"
+      # Comment
+    elif (1 == switch_1):
+      $ 156 "Case 1"
+      $ 157 "Home"
+      $ 158 "vp_CHECKPOINT≔pHomeTransit"
+      global vp_CHECKPOINT=pHomeTransit_p
+      $ 159 "If point_dist(get_actual_tcp_pose(),pHome)≥point_dist(get_actual_tcp_pose(),pHomeTransit)"
+      if (point_dist( get_actual_tcp_pose (),pHome_p) >= point_dist( get_actual_tcp_pose (),pHomeTransit_p)):
+        $ 160 "MoveJ"
+        $ 161 "pHomeTransit" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=17.453292519943293, v=3.141592653589793)
+      end
+      $ 162 "MoveJ"
+      $ 163 "pHome" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pHome_p, qnear=pHome_q), a=17.453292519943293, v=3.141592653589793)
+      $ 164 "ResetWrist"
+      $ 165 "aJointAngles≔get_actual_joint_positions()"
+      global aJointAngles= get_actual_joint_positions ()
+      $ 166 "aJointAngles[5]=d2r(72)"
+      aJointAngles[5]=d2r(72)
+      $ 167 "MoveJ"
+      $ 168 "aJointAngles" "breakAfter"
+      movej(aJointAngles, a=1.3962634015954636, v=1.0471975511965976)
+      $ 169 "Comment"
+      # Comment
+    elif (2 == switch_1):
+      $ 170 "Case 2"
+      $ 171 "VisionLid"
+      $ 172 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 227 "VisionLidPick"
+      $ 228 "GripperOn(0,0)"
+      GripperOn(0,0)
+      $ 229 "ApproachMag"
+      $ 230 "vp_CHECKPOINT≔pMagPickAbv"
+      global vp_CHECKPOINT=pMagPickAbv_p
+      $ 231 "MoveJ"
+      $ 232 "pMagPickAbv" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pMagPickAbv_p, qnear=pMagPickAbv_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+      $ 233 "MoveL"
+      $ 234 "pVisionStackTop" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(pVisionStackTop_p, a=2.5, v=0.75)
+      $ 235 "ManualAssignVisionLid"
+      $ 236 "If bManualControl"
+      if (bManualControl):
+        $ 237 "iStackIn2Vision≔'number of vision lids?'"
+        global iStackIn2Vision=request_integer_from_primary_client("number of vision lids?")
+        $ 238 "iStackIn2Vision≔iStackIn2Vision-1"
+        global iStackIn2Vision=iStackIn2Vision-1
+        $ 239 "Loop iStackIn2Vision<-1"
+        while (iStackIn2Vision<-1):
+          $ 240 "iStackIn2Vision≔'number of vision lids?'"
+          global iStackIn2Vision=request_integer_from_primary_client("number of vision lids?")
+        end
+      end
+      $ 241 "AssignVisionLid"
+      $ 242 "vpVisionLidPick≔pose_trans(pVisionLidBaseZ, p[0,0, -1*fVisionLidZ*iStackIn2Vision, 0, 0, 0])"
+      global vpVisionLidPick= pose_trans (pVisionLidBaseZ_p, p[0,0, -1*fVisionLidZ*iStackIn2Vision, 0, 0, 0])
+      $ 243 "vpTargetApp≔pose_trans(vpVisionLidPick, p[0,0, -25/1000, 0, 0, 0])"
+      global vpTargetApp= pose_trans (vpVisionLidPick, p[0,0, -25/1000, 0, 0, 0])
+      $ 244 "PickVisionLid"
+      $ 245 "vp_CHECKPOINT≔pVisionStackTop"
+      global vp_CHECKPOINT=pVisionStackTop_p
+      $ 246 "MoveL"
+      $ 247 "vpTargetApp" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(vpTargetApp, a=2.5, v=0.75)
+      $ 248 "GripperOff()"
+      GripperOff()
+      $ 249 "MoveL"
+      $ 250 "vpVisionLidPick" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(vpVisionLidPick, a=2.5, v=0.75)
+      $ 251 "GripperOn()"
+      GripperOn()
+      $ 252 "If iStackIn2Vision>0"
+      if (iStackIn2Vision>0):
+        $ 253 "Separate"
+        $ 254 "'lift'"
+        # 'lift'
+        $ 258 "'tilt'"
+        # 'tilt'
+        $ 260 "vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,0,0,-d2r(5),0])"
+        global vpTargetPos= pose_trans (vpVisionLidPick, p[0,0,0,0,-d2r(5),0])
+        $ 261 "MoveL"
+        $ 262 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=1.2, v=0.05)
+        $ 263 "'lift'"
+        # 'lift'
+        $ 264 "vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-10/1000,0,-d2r(5),0])"
+        global vpTargetPos= pose_trans (vpVisionLidPick, p[0,0,-10/1000,0,-d2r(5),0])
+        $ 265 "MoveL"
+        $ 266 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=0.25, v=0.05)
+      end
+      $ 267 "ExitVision"
+      $ 268 "MoveL"
+      $ 269 "pVisionStackTop" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(pVisionStackTop_p, a=1.2, v=0.25, r=0.01)
+      $ 270 "Comment"
+      # Comment
+      $ 271 "VisionLidPlace"
+      $ 272 "vp_CHECKPOINT≔pVLidPlaceAbv"
+      global vp_CHECKPOINT=pVLidPlaceAbv_p
+      $ 273 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 274 "MoveJ"
+      $ 275 "pVLidPlaceApp" "breakAfter"
+      movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=13.089969389957473, v=3.141592653589793, r=0.05)
+      $ 276 "MoveJ"
+      $ 277 "pVLidPlaceAbv" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pVLidPlaceAbv_p, qnear=pVLidPlaceAbv_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 278 "MoveL"
+      $ 279 "pVLidPlace" "breakAfter"
+      global move_thread_flag_279=0
+      thread move_thread_279():
+        enter_critical
+        move_thread_flag_279 = 1
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pVLidPlace_p, a=0.1, v=0.05)
+        move_thread_flag_279 = 2
+        exit_critical
+      end
+      move_thread_flag_279 = 0
+      move_thread_han_279 = run move_thread_279()
+      while (True):
+        local targetTcpDirection=get_target_tcp_speed()
+        local stepsToRetract=tool_contact(direction=targetTcpDirection)
+        if (stepsToRetract > 0):
+          kill move_thread_han_279
+          stopl(3.0)
+          local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+          local contactPose=get_forward_kin(backTrackMovement)
+          local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+          local retractTo=contactPose
+          if (norm(posDir) > 1e-6):
+            local normalizedPosDir=normalize(posDir)
+            local additionalRetraction=p[normalizedPosDir[0] * 0.0, normalizedPosDir[1] * 0.0, normalizedPosDir[2] * 0.0, 0, 0, 0]
+            retractTo = pose_sub(contactPose, additionalRetraction)
+          end
+          movel(retractTo, a=3.0, v=0.1)
+          $ 280 "Until (tool_contact_detection)"
+          break
+        end
+        sleep(1.0E-10)
+        if (move_thread_flag_279 > 1):
+          join move_thread_han_279
+          break
+        end
+        sync()
+      end
+      $ 281 "GripperOff()"
+      GripperOff()
+      $ 282 "MoveL"
+      $ 283 "pVLidPlaceAbv" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(pVLidPlaceAbv_p, a=2.5, v=0.75, r=0.01)
+      $ 284 "MoveJ"
+      $ 285 "pVLidPlaceApp" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=17.453292519943293, v=3.141592653589793)
+      $ 286 "Comment"
+      # Comment
+    elif (3 == switch_1):
+      $ 287 "Case 3"
+      $ 288 "AgarPlate"
+      $ 289 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 290 "AgarPlatePick"
+      $ 291 "GripperOn(0,0)"
+      GripperOn(0,0)
+      $ 292 "ApproachMag"
+      $ 293 "vp_CHECKPOINT≔pMagPickAbv"
+      global vp_CHECKPOINT=pMagPickAbv_p
+      $ 294 "MoveJ"
+      $ 295 "pMagPickAbv" "breakAfter"
+      movej(get_inverse_kin(pMagPickAbv_p, qnear=pMagPickAbv_q), a=1.3962634015954636, v=1.0471975511965976, r=0.001)
+      $ 296 "MoveL"
+      $ 297 "pAgarStackTop" "breakAfter"
+      movel(pAgarStackTop_p, a=2.5, v=0.75)
+      $ 298 "ManualAssignAgar"
+      $ 299 "If bManualControl"
+      if (bManualControl):
+        $ 300 "iStackIn1Agar≔'number of agar plates?'"
+        global iStackIn1Agar=request_integer_from_primary_client("number of agar plates?")
+        $ 301 "iStackIn1Agar≔iStackIn1Agar-1"
+        global iStackIn1Agar=iStackIn1Agar-1
+        $ 302 "Loop iStackIn1Agar<-1"
+        while (iStackIn1Agar<-1):
+          $ 303 "iStackIn1Agar≔'number of vision lids?'"
+          global iStackIn1Agar=request_integer_from_primary_client("number of vision lids?")
+        end
+      end
+      $ 304 "AssignAgar"
+      $ 305 "vpAgarPlatePick≔pose_trans(pAgarPlateBaseZ, p[0,0, -1*fAgarDishZ*iStackIn1Agar, 0, 0, 0])"
+      global vpAgarPlatePick= pose_trans (pAgarPlateBaseZ_p, p[0,0, -1*fAgarDishZ*iStackIn1Agar, 0, 0, 0])
+      $ 306 "vpTargetApp≔pose_trans(vpAgarPlatePick, p[0,0, -25/1000, 0, 0, 0])"
+      global vpTargetApp= pose_trans (vpAgarPlatePick, p[0,0, -25/1000, 0, 0, 0])
+      $ 307 "PickAgar"
+      $ 308 "vp_CHECKPOINT≔pAgarStackTop"
+      global vp_CHECKPOINT=pAgarStackTop_p
+      $ 309 "MoveL"
+      $ 310 "vpTargetApp" "breakAfter"
+      movel(vpTargetApp, a=2.5, v=0.75)
+      $ 311 "GripperOff()"
+      GripperOff()
+      $ 312 "MoveL"
+      $ 313 "vpAgarPlatePick" "breakAfter"
+      movel(vpAgarPlatePick, a=2.5, v=0.75)
+      $ 314 "GripperOn()"
+      GripperOn()
+      $ 315 "ExitAgar"
+      $ 316 "MoveL"
+      $ 317 "pAgarStackTop" "breakAfter"
+      movel(pAgarStackTop_p, a=1.2, v=0.75, r=0.001)
+      $ 318 "MoveJ"
+      $ 319 "pMagPickAbv" "breakAfter"
+      movej(get_inverse_kin(pMagPickAbv_p, qnear=pMagPickAbv_q), a=17.453292519943293, v=3.141592653589793, r=0.01)
+      $ 320 "Comment"
+      # Comment
+      $ 321 "AgarPlateRegrip"
+      $ 322 "vp_CHECKPOINT≔pReGripAbv"
+      global vp_CHECKPOINT=pReGripAbv_p
+      $ 323 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 324 "MoveJ"
+      $ 325 "pReGripAbv" "breakAfter"
+      movej(get_inverse_kin(pReGripAbv_p, qnear=pReGripAbv_q), a=13.089969389957473, v=3.141592653589793, r=0.01)
+      $ 326 "vpReGripDrop≔pose_trans(pReGripPlace, p[0,0,-5/1000,0,0,0])"
+      global vpReGripDrop= pose_trans (pReGripPlace_p, p[0,0,-5/1000,0,0,0])
+      $ 327 "MoveL"
+      $ 328 "vpReGripDrop" "breakAfter"
+      global move_thread_flag_328=0
+      thread move_thread_328():
+        enter_critical
+        move_thread_flag_328 = 1
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(vpReGripDrop, a=1.2, v=0.25)
+        move_thread_flag_328 = 2
+        exit_critical
+      end
+      move_thread_flag_328 = 0
+      move_thread_han_328 = run move_thread_328()
+      while (True):
+        local targetTcpDirection=get_target_tcp_speed()
+        local stepsToRetract=tool_contact(direction=targetTcpDirection)
+        if (stepsToRetract > 0):
+          kill move_thread_han_328
+          stopl(3.0)
+          local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+          local contactPose=get_forward_kin(backTrackMovement)
+          local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+          local retractTo=contactPose
+          if (norm(posDir) > 1e-6):
+            local normalizedPosDir=normalize(posDir)
+            local additionalRetraction=p[normalizedPosDir[0] * 0.0, normalizedPosDir[1] * 0.0, normalizedPosDir[2] * 0.0, 0, 0, 0]
+            retractTo = pose_sub(contactPose, additionalRetraction)
+          end
+          movel(retractTo, a=3.0, v=0.1)
+          $ 329 "Until (tool_contact_detection)"
+          break
+        end
+        sleep(1.0E-10)
+        if (move_thread_flag_328 > 1):
+          join move_thread_han_328
+          break
+        end
+        sync()
+      end
+      $ 330 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 331 "GripperOff()"
+      GripperOff()
+      $ 332 "Set"
+      set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+      $ 333 "MoveL"
+      $ 334 "pReGripPlace" "breakAfter"
+      set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+      movel(pReGripPlace_p, a=1.2, v=0.25)
+      $ 335 "If bLaserSensor"
+      global thread_flag_335=0
+      thread Thread_if_335():
+        $ 336 "SeekAllignmentHole"
+        $ 337 "Set"
+        set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+        $ 338 "Move 1"
+        $ 339 "vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(181)])"
+        global vpTargetPos= pose_trans (pReGripPlace_p, p[0, 0, 0, 0, 0, d2r(181)])
+        $ 340 "MoveL"
+        $ 341 "fMoveLPose≔vpTargetPos"
+        global fMoveLPose=vpTargetPos
+        $ 342 "movel(fMoveLPose, fMoveLAccel, fMoveLSpd)"
+        movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+        $ 343 "Move 1.5"
+        $ 344 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, 0, d2r(-3)])"
+        global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, 0, d2r(-3)])
+        $ 345 "MoveL"
+        $ 346 "fMoveLPose≔vpTargetPos"
+        global fMoveLPose=vpTargetPos
+        $ 347 "movel(fMoveLPose, fMoveLAccel, fMoveLSpd)"
+        movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+        $ 348 "stopl(10000)"
+        stopl(10000)
+        $ 349 "Reset"
+        $ 350 "MoveJ"
+        $ 351 "pReGripPlace" "breakAfter"
+        set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pReGripPlace_p, qnear=pReGripPlace_q), a=17.453292519943293, v=3.141592653589793)
+        $ 352 "Move 2"
+        $ 353 "vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(-181)])"
+        global vpTargetPos= pose_trans (pReGripPlace_p, p[0, 0, 0, 0, 0, d2r(-181)])
+        $ 354 "MoveL"
+        $ 355 "fMoveLPose≔vpTargetPos"
+        global fMoveLPose=vpTargetPos
+        $ 356 "movel(fMoveLPose, fMoveLAccel, fMoveLSpd)"
+        movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+        $ 357 "Reset"
+        $ 358 "MoveJ"
+        $ 359 "pReGripPlace" "breakAfter"
+        set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pReGripPlace_p, qnear=pReGripPlace_q), a=17.453292519943293, v=3.141592653589793)
+        thread_flag_335 = 1
+      end
+      if (bLaserSensor):
+        global thread_handler_335=run Thread_if_335()
+        while (thread_flag_335 == 0):
+          if not(bLaserSensor):
+            kill thread_handler_335
+            thread_flag_335 = 2
+          else:
+            sync()
+          end
+        end
+      else:
+        thread_flag_335 = 2
+      end
+      if (thread_flag_335 == 2):
+        $ 360 "Else" "noBreak"
+        $ 361 "stopl(1000)"
+        stopl(1000)
+      end
+      $ 362 "GripOffset"
+      $ 363 "vpTargetPos≔pose_trans(vpLaserPose, p[0, 0, -5.8/1000, 0, 0, d2r(90)])"
+      global vpTargetPos= pose_trans (vpLaserPose, p[0, 0, -5.8/1000, 0, 0, d2r(90)])
+      $ 364 "MoveL"
+      $ 365 "vpTargetPos" "breakAfter"
+      movel(vpTargetPos, a=2.5, v=1.0)
+      $ 366 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 367 "GripperOn()"
+      GripperOn()
+      $ 368 "Raise"
+      $ 369 "vpTargetPos≔pose_trans(vpTargetPos, p[0, 0, -12/1000, 0, 0, 0])"
+      global vpTargetPos= pose_trans (vpTargetPos, p[0, 0, -12/1000, 0, 0, 0])
+      $ 370 "MoveL"
+      $ 371 "vpTargetPos" "breakAfter"
+      movel(vpTargetPos, a=1.2, v=0.25)
+      $ 372 "Set"
+      set_tcp(p[0.0,0.0,0.24765,0.0,0.0,-1.5708])
+      $ 373 "MoveJ"
+      $ 374 "pReGripAbv" "breakAfter"
+      movej(get_inverse_kin(pReGripAbv_p, qnear=pReGripAbv_q), a=40.0, v=3.141592653589793)
+      $ 375 "Comment"
+      # Comment
+    elif (4 == switch_1):
+      $ 376 "Case 4"
+      $ 377 "AgarPlateLid"
+      $ 378 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 379 "AgarPlateLidRemoval"
+      $ 380 "vp_CHECKPOINT≔pLidRmvAbv"
+      global vp_CHECKPOINT=pLidRmvAbv_p
+      $ 381 "MoveJ"
+      $ 382 "pLidRmvAbv" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pLidRmvAbv_p, qnear=pLidRmvAbv_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+      $ 383 "MoveL"
+      $ 384 "pLidRmvFront" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(pLidRmvFront_p, a=1.2, v=0.125, r=0.005)
+      $ 385 "MoveL"
+      $ 386 "pLidRmvIn" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(pLidRmvIn_p, a=1.2, v=0.125, r=0.001)
+      $ 387 "MoveL"
+      $ 388 "pLidRmvAbv" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movel(pLidRmvAbv_p, a=1.2, v=0.125, r=0.01)
+      $ 389 "MoveJ"
+      $ 390 "pHomeTransit" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 391 "Comment"
+      # Comment
+      $ 392 "Comment"
+      # Comment
+    elif (5 == switch_1):
+      $ 393 "Case 5"
+      $ 394 "SampleFingerLeft"
+      $ 395 "vp_CHECKPOINT≔pLHandBelow"
+      global vp_CHECKPOINT=pLHandBelow_p
+      $ 396 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 397 "MoveJ"
+      $ 398 "pLHandBelow" "breakAfter"
+      movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 399 "Loop 5 times"
+      Loop_8 = 0
+      while (Loop_8 < 5):
+        $ 400 "TestFingerLeft"
+        $ 401 "MoveJ"
+        $ 402 "pLHandBelow" "breakAfter"
+        movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 403 "ZeroFT"
+        $ 404 "stopj(1)"
+        stopj(1)
+        $ 405 "Wait: 0.25"
+        sleep(0.25)
+        $ 406 "zero_ftsensor()"
+        zero_ftsensor()
+        $ 407 "Wait: 0.25"
+        sleep(0.25)
+        $ 408 "MoveJ"
+        $ 409 "pLHandFixed" "breakAfter"
+        movej(get_inverse_kin(pLHandFixed_p, qnear=pLHandFixed_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 410 "stopj(1)"
+        stopj(1)
+        $ 411 "Wait: 0.25"
+        sleep(0.25)
+        $ 415 "Loop  not bImpulse"
+        while (  not  bImpulse):
+          $ 416 "stopj(1)"
+          stopj(1)
+          $ 417 "sync()"
+          sync()
+        end
+        $ 418 "rollFinger"
+        $ 419 "Set"
+        set_tcp(p[0.0,0.0,0.24765,0.0,0.0,-1.5708])
+        $ 420 "fAngleRoll≔15"
+        global fAngleRoll=15
+        $ 421 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(fAngleRoll), 0])"
+        global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, d2r(fAngleRoll), 0])
+        $ 422 "Force"
+        sleep(0.02)
+        zero_ftsensor()
+        force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 0.75, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+        $ 423 "MoveL" "noBreak"
+        $ 424 "vpTargetPos" "noBreak"
+        movel(vpTargetPos, a=0.25, v=0.25)
+        end_force_mode()
+        stopl(5.0)
+        $ 425 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(2*fAngleRoll), 0])"
+        global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, -d2r(2*fAngleRoll), 0])
+        $ 426 "Force"
+        sleep(0.02)
+        zero_ftsensor()
+        force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 0.75, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+        $ 427 "MoveL" "noBreak"
+        $ 428 "vpTargetPos" "noBreak"
+        movel(vpTargetPos, a=0.25, v=0.25)
+        end_force_mode()
+        stopl(5.0)
+        $ 429 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 430 "MoveJ"
+        $ 431 "pLHandBelow" "breakAfter"
+        movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 432 "stopj(1)"
+        stopj(1)
+        Loop_8 = Loop_8 + 1
+      end
+    elif (6 == switch_1):
+      $ 433 "Case 6"
+      $ 434 "SampleFingerRight"
+      $ 435 "vp_CHECKPOINT≔pLHandBelow"
+      global vp_CHECKPOINT=pLHandBelow_p
+      $ 436 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 437 "If iLastState≠6"
+      if (iLastState != 6):
+        $ 438 "MoveJ"
+        $ 439 "pLHandBelow" "breakAfter"
+        movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+      end
+      $ 440 "MoveJ"
+      $ 441 "pRHandBelow" "breakAfter"
+      movej(get_inverse_kin(pRHandBelow_p, qnear=pRHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 442 "Loop 5 times"
+      Loop_10 = 0
+      while (Loop_10 < 5):
+        $ 443 "TestFingerRight"
+        $ 444 "MoveJ"
+        $ 445 "pRHandBelow" "breakAfter"
+        movej(get_inverse_kin(pRHandBelow_p, qnear=pRHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 446 "ZeroFT"
+        $ 447 "stopj(1)"
+        stopj(1)
+        $ 448 "Wait: 0.25"
+        sleep(0.25)
+        $ 449 "zero_ftsensor()"
+        zero_ftsensor()
+        $ 450 "Wait: 0.25"
+        sleep(0.25)
+        $ 451 "MoveJ"
+        $ 452 "pRHandFixed" "breakAfter"
+        movej(get_inverse_kin(pRHandFixed_p, qnear=pRHandFixed_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 453 "stopj(1)"
+        stopj(1)
+        $ 454 "Wait: 0.25"
+        sleep(0.25)
+        $ 455 "Loop  not bImpulse"
+        while (  not  bImpulse):
+          $ 456 "stopj(1)"
+          stopj(1)
+          $ 457 "sync()"
+          sync()
+        end
+        $ 458 "rollFinger"
+        $ 459 "Set"
+        set_tcp(p[0.0,0.0,0.24765,0.0,0.0,-1.5708])
+        $ 460 "fAngleRoll≔15"
+        global fAngleRoll=15
+        $ 461 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(fAngleRoll), 0])"
+        global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, d2r(fAngleRoll), 0])
+        $ 462 "Force"
+        sleep(0.02)
+        zero_ftsensor()
+        force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 0.75, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+        $ 463 "MoveL" "noBreak"
+        $ 464 "vpTargetPos" "noBreak"
+        movel(vpTargetPos, a=0.25, v=0.25)
+        end_force_mode()
+        stopl(5.0)
+        $ 465 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(2*fAngleRoll), 0])"
+        global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, -d2r(2*fAngleRoll), 0])
+        $ 466 "Force"
+        sleep(0.02)
+        zero_ftsensor()
+        force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 0.75, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+        $ 467 "MoveL" "noBreak"
+        $ 468 "vpTargetPos" "noBreak"
+        movel(vpTargetPos, a=0.25, v=0.25)
+        end_force_mode()
+        stopl(5.0)
+        $ 469 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 470 "stopj(1)"
+        stopj(1)
+        Loop_10 = Loop_10 + 1
+      end
+      $ 471 "MoveJ"
+      $ 472 "pRHandBelow" "breakAfter"
+      movej(get_inverse_kin(pRHandBelow_p, qnear=pRHandBelow_q), a=1.3962634015954636, v=1.0471975511965976, r=0.05)
+      $ 473 "MoveJ"
+      $ 474 "pLHandBelow" "breakAfter"
+      movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976)
+    elif (7 == switch_1):
+      $ 475 "Case 7"
+      $ 476 "SampleArmL"
+      $ 477 "vp_CHECKPOINT≔pArmsAbove"
+      global vp_CHECKPOINT=pArmsAbove_p
+      $ 478 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 479 "MoveJ"
+      $ 480 "pArmsAbove" "breakAfter"
+      movej(get_inverse_kin(pArmsAbove_p, qnear=pArmsAbove_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 481 "MoveJ"
+      $ 482 "pArmLAbv" "breakAfter"
+      movej(get_inverse_kin(pArmLAbv_p, qnear=pArmLAbv_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 483 "ZeroFT"
+      $ 484 "stopj(1)"
+      stopj(1)
+      $ 485 "Wait: 0.5"
+      sleep(0.5)
+      $ 486 "zero_ftsensor()"
+      zero_ftsensor()
+      $ 487 "Wait: 0.5"
+      sleep(0.5)
+      $ 488 "rollArms"
+      $ 489 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,200/1000,0,0,0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0,0,200/1000,0,0,0])
+      $ 490 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 1.5, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.125, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+      $ 491 "MoveL" "noBreak"
+      $ 492 "vpTargetPos" "noBreak"
+      global move_thread_flag_492=0
+      thread move_thread_492():
+        enter_critical
+        move_thread_flag_492 = 1
+        movel(vpTargetPos, a=0.125, v=0.1)
+        move_thread_flag_492 = 2
+        exit_critical
+      end
+      move_thread_flag_492 = 0
+      move_thread_han_492 = run move_thread_492()
+      while (True):
+        local targetTcpDirection=get_target_tcp_speed()
+        local stepsToRetract=tool_contact(direction=targetTcpDirection)
+        if (stepsToRetract > 0):
+          kill move_thread_han_492
+          stopl(3.0)
+          local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+          local contactPose=get_forward_kin(backTrackMovement)
+          local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+          local retractTo=contactPose
+          if (norm(posDir) > 1e-6):
+            local normalizedPosDir=normalize(posDir)
+            local additionalRetraction=p[normalizedPosDir[0] * 0.0, normalizedPosDir[1] * 0.0, normalizedPosDir[2] * 0.0, 0, 0, 0]
+            retractTo = pose_sub(contactPose, additionalRetraction)
+          end
+          movel(retractTo, a=3.0, v=0.1)
+          $ 493 "Until (tool_contact_detection)" "noBreak"
+          break
+        end
+        sleep(1.0E-10)
+        if (move_thread_flag_492 > 1):
+          join move_thread_han_492
+          break
+        end
+        sync()
+      end
+      end_force_mode()
+      stopl(5.0)
+      $ 494 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(10), 0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, d2r(10), 0])
+      $ 495 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.1, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+      $ 496 "MoveL" "noBreak"
+      $ 497 "vpTargetPos" "noBreak"
+      movel(vpTargetPos, a=0.1, v=0.05)
+      end_force_mode()
+      stopl(5.0)
+      $ 498 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(20), 0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, -d2r(20), 0])
+      $ 499 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.1, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+      $ 500 "MoveL" "noBreak"
+      $ 501 "vpTargetPos" "noBreak"
+      movel(vpTargetPos, a=0.1, v=0.05)
+      end_force_mode()
+      stopl(5.0)
+      $ 502 "Comment"
+      # Comment
+      $ 503 "MoveJ"
+      $ 504 "pArmLAbv" "breakAfter"
+      movej(get_inverse_kin(pArmLAbv_p, qnear=pArmLAbv_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 505 "pArmsAbove" "breakAfter"
+      movej(get_inverse_kin(pArmsAbove_p, qnear=pArmsAbove_q), a=1.3962634015954636, v=1.0471975511965976)
+    elif (8 == switch_1):
+      $ 506 "Case 8"
+      $ 507 "SampleArmR"
+      $ 508 "vp_CHECKPOINT≔pArmsAbove"
+      global vp_CHECKPOINT=pArmsAbove_p
+      $ 509 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 510 "MoveJ"
+      $ 511 "pArmsAbove" "breakAfter"
+      movej(get_inverse_kin(pArmsAbove_p, qnear=pArmsAbove_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 512 "MoveJ"
+      $ 513 "pArmRAbv" "breakAfter"
+      movej(get_inverse_kin(pArmRAbv_p, qnear=pArmRAbv_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 514 "ZeroFT"
+      $ 515 "stopj(1)"
+      stopj(1)
+      $ 516 "Wait: 0.5"
+      sleep(0.5)
+      $ 517 "zero_ftsensor()"
+      zero_ftsensor()
+      $ 518 "Wait: 0.5"
+      sleep(0.5)
+      $ 519 "rollArms"
+      $ 520 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,200/1000,0,0,0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0,0,200/1000,0,0,0])
+      $ 521 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 1.5, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.125, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+      $ 522 "MoveL" "noBreak"
+      $ 523 "vpTargetPos" "noBreak"
+      global move_thread_flag_523=0
+      thread move_thread_523():
+        enter_critical
+        move_thread_flag_523 = 1
+        movel(vpTargetPos, a=0.25, v=0.1)
+        move_thread_flag_523 = 2
+        exit_critical
+      end
+      move_thread_flag_523 = 0
+      move_thread_han_523 = run move_thread_523()
+      while (True):
+        local targetTcpDirection=get_target_tcp_speed()
+        local stepsToRetract=tool_contact(direction=targetTcpDirection)
+        if (stepsToRetract > 0):
+          kill move_thread_han_523
+          stopl(3.0)
+          local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+          local contactPose=get_forward_kin(backTrackMovement)
+          local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+          local retractTo=contactPose
+          if (norm(posDir) > 1e-6):
+            local normalizedPosDir=normalize(posDir)
+            local additionalRetraction=p[normalizedPosDir[0] * 0.0, normalizedPosDir[1] * 0.0, normalizedPosDir[2] * 0.0, 0, 0, 0]
+            retractTo = pose_sub(contactPose, additionalRetraction)
+          end
+          movel(retractTo, a=3.0, v=0.1)
+          $ 524 "Until (tool_contact_detection)" "noBreak"
+          break
+        end
+        sleep(1.0E-10)
+        if (move_thread_flag_523 > 1):
+          join move_thread_han_523
+          break
+        end
+        sync()
+      end
+      end_force_mode()
+      stopl(5.0)
+      $ 525 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, d2r(10), 0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, d2r(10), 0])
+      $ 526 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+      $ 527 "MoveL" "noBreak"
+      $ 528 "vpTargetPos" "noBreak"
+      movel(vpTargetPos, a=0.25, v=0.1)
+      end_force_mode()
+      stopl(5.0)
+      $ 529 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, -d2r(20), 0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, -d2r(20), 0])
+      $ 530 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(tool_pose(), [0, 0, 1, 0, 0, 0], [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+      $ 531 "MoveL" "noBreak"
+      $ 532 "vpTargetPos" "noBreak"
+      movel(vpTargetPos, a=0.25, v=0.1)
+      end_force_mode()
+      stopl(5.0)
+      $ 533 "Comment"
+      # Comment
+      $ 534 "MoveJ"
+      $ 535 "pArmRAbv" "breakAfter"
+      movej(get_inverse_kin(pArmRAbv_p, qnear=pArmRAbv_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 536 "pArmsAbove" "breakAfter"
+      movej(get_inverse_kin(pArmsAbove_p, qnear=pArmsAbove_q), a=1.3962634015954636, v=1.0471975511965976)
+    elif (9 == switch_1):
+      $ 537 "Case 9"
+      $ 538 "LockAgarToVisionLid"
+      $ 539 "vp_CHECKPOINT≔pVLidPlaceAbv"
+      global vp_CHECKPOINT=pVLidPlaceAbv_p
+      $ 540 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 541 "ApproachFixture"
+      $ 542 "If iStateOut≟5 or iStateOut≟6"
+      if (iStateOut == 5  or  iStateOut == 6):
+        $ 543 "MoveJ"
+        $ 544 "pLHandBelow" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976, r=0.05)
+        $ 545 "MoveJ"
+        $ 546 "pHomeTransit" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+      else:
+        $ 547 "Else" "noBreak"
+        $ 548 "MoveJ"
+        $ 549 "pHomeTransit" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+      end
+      $ 550 "MoveJ"
+      $ 551 "pVLidPlaceApp" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=17.453292519943293, v=3.141592653589793, r=0.05)
+      $ 552 "MoveJ"
+      $ 553 "pVLidPlaceAbv" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pVLidPlaceAbv_p, qnear=pVLidPlaceAbv_q), a=17.453292519943293, v=3.141592653589793)
+      $ 554 "ZeroFT"
+      $ 555 "stopj(1)"
+      stopj(1)
+      $ 556 "Wait: 0.25"
+      sleep(0.25)
+      $ 557 "zero_ftsensor()"
+      zero_ftsensor()
+      $ 558 "Wait: 0.25"
+      sleep(0.25)
+      $ 559 "DownTillContact"
+      $ 560 "MoveL"
+      $ 561 "pAgarLock" "breakAfter"
+      global move_thread_flag_561=0
+      thread move_thread_561():
+        enter_critical
+        move_thread_flag_561 = 1
+        movel(pAgarLock_p, a=0.125, v=0.01)
+        move_thread_flag_561 = 2
+        exit_critical
+      end
+      move_thread_flag_561 = 0
+      move_thread_han_561 = run move_thread_561()
+      while (True):
+        local targetTcpDirection=get_target_tcp_speed()
+        local stepsToRetract=tool_contact(direction=targetTcpDirection)
+        if (stepsToRetract > 0):
+          kill move_thread_han_561
+          stopl(3.0)
+          local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+          local contactPose=get_forward_kin(backTrackMovement)
+          local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+          local retractTo=contactPose
+          if (norm(posDir) > 1e-6):
+            local normalizedPosDir=normalize(posDir)
+            local additionalRetraction=p[normalizedPosDir[0] * 0.001, normalizedPosDir[1] * 0.001, normalizedPosDir[2] * 0.001, 0, 0, 0]
+            retractTo = pose_sub(contactPose, additionalRetraction)
+          end
+          movel(retractTo, a=3.0, v=0.1)
+          $ 562 "Until (tool_contact_detection)"
+          $ 563 "Force"
+          sleep(0.02)
+          zero_ftsensor()
+          force_mode(p[0.0,0.0,0.0,0.0,0.0,0.0], [0, 0, 1, 0, 0, 0], [0.0, 0.0, -2.0, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.15, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+          $ 564 "Seek" "noBreak"
+          $ 565 "vpToolActual≔get_actual_tcp_pose()" "noBreak"
+          global vpToolActual= get_actual_tcp_pose ()
+          $ 566 "fSeekMM≔1/1000" "noBreak"
+          global fSeekMM=1/1000
+          $ 567 "vpTargetPos≔pose_trans(vpToolActual, p[0,-fSeekMM,0,0,0,0])" "noBreak"
+          global vpTargetPos= pose_trans (vpToolActual, p[0,-fSeekMM,0,0,0,0])
+          $ 568 "MoveL" "noBreak"
+          $ 569 "vpTargetPos" "noBreak"
+          movel(vpTargetPos, a=0.12, v=0.01)
+          $ 570 "vpTargetPos≔pose_trans(vpToolActual, p[fSeekMM,0,0,0,0,0])" "noBreak"
+          global vpTargetPos= pose_trans (vpToolActual, p[fSeekMM,0,0,0,0,0])
+          $ 571 "MoveL" "noBreak"
+          $ 572 "vpTargetPos" "noBreak"
+          movel(vpTargetPos, a=0.12, v=0.01)
+          $ 573 "vpTargetPos≔pose_trans(vpToolActual, p[0,fSeekMM,0,0,0,0])" "noBreak"
+          global vpTargetPos= pose_trans (vpToolActual, p[0,fSeekMM,0,0,0,0])
+          $ 574 "MoveL" "noBreak"
+          $ 575 "vpTargetPos" "noBreak"
+          movel(vpTargetPos, a=0.12, v=0.01)
+          $ 576 "vpTargetPos≔pose_trans(vpToolActual, p[-fSeekMM,0,0,0,0,0])" "noBreak"
+          global vpTargetPos= pose_trans (vpToolActual, p[-fSeekMM,0,0,0,0,0])
+          $ 577 "MoveL" "noBreak"
+          $ 578 "vpTargetPos" "noBreak"
+          movel(vpTargetPos, a=0.12, v=0.01)
+          end_force_mode()
+          stopl(5.0)
+          $ 579 "end_force_mode()"
+          end_force_mode()
+          $ 580 "vpToolTarget≔pose_trans(pAgarLock, p[0,0,0,0,0,-d2r(24)])"
+          global vpToolTarget= pose_trans (pAgarLock_p, p[0,0,0,0,0,-d2r(24)])
+          $ 581 "MoveL"
+          $ 582 "vpToolTarget" "breakAfter"
+          global move_thread_flag_582=0
+          thread move_thread_582():
+            enter_critical
+            move_thread_flag_582 = 1
+            movel(vpToolTarget, a=0.25, v=0.05)
+            move_thread_flag_582 = 2
+            exit_critical
+          end
+          move_thread_flag_582 = 0
+          move_thread_han_582 = run move_thread_582()
+          while (True):
+            sleep(1.0E-10)
+            if (move_thread_flag_582 > 1):
+              join move_thread_han_582
+              break
+            end
+            sync()
+          end
+          break
+        end
+        sleep(1.0E-10)
+        if (move_thread_flag_561 > 1):
+          join move_thread_han_561
+          $ 584 "Until (reached_waypoint)"
+          break
+        end
+        sync()
+      end
+      $ 585 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 586 "Lock"
+      $ 587 "'40 degrees'"
+      # '40 degrees'
+      $ 588 "vpTargetPos≔pose_trans(pAgarLock, p[0,0,3/1000,0,0,d2r(40)])"
+      global vpTargetPos= pose_trans (pAgarLock_p, p[0,0,3/1000,0,0,d2r(40)])
+      $ 589 "Force"
+      sleep(0.02)
+      zero_ftsensor()
+      force_mode(p[0.0,0.0,0.0,0.0,0.0,0.0], [0, 0, 1, 0, 0, 1], [0.0, 0.0, -30.0, 0.0, 0.0, -20.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 1.0471975511965976])
+      $ 590 "MoveL" "noBreak"
+      $ 591 "vpTargetPos" "noBreak"
+      movel(vpTargetPos, a=1.2, v=0.125)
+      end_force_mode()
+      stopl(5.0)
+      $ 592 "end_force_mode()"
+      end_force_mode()
+      $ 593 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 594 "ReleasePressure"
+      $ 595 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,-2/1000,0,0,0])"
+      global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0,0,-2/1000,0,0,0])
+      $ 596 "MoveL"
+      $ 597 "vpTargetPos" "breakAfter"
+      movel(vpTargetPos, a=0.5, v=0.05)
+      $ 598 "vpTargetPos≔pose_trans(pAgarLock, p[0,0,0,0,0,d2r(90)])"
+      global vpTargetPos= pose_trans (pAgarLock_p, p[0,0,0,0,0,d2r(90)])
+      $ 599 "MoveL"
+      $ 600 "vpTargetPos" "breakAfter"
+      movel(vpTargetPos, a=2.5, v=0.75)
+      $ 602 "vpStartPos≔pose_trans(vpTargetPos, p[0,0,-1/1000,0,0,0])"
+      global vpStartPos= pose_trans (vpTargetPos, p[0,0,-1/1000,0,0,0])
+      $ 604 "GripperOff()"
+      GripperOff()
+      $ 605 "MoveAwayForDataMatrix"
+      $ 606 "MoveL"
+      $ 607 "pVLidPlaceAbv" "breakAfter"
+      movel(pVLidPlaceAbv_p, a=2.5, v=0.75, r=0.01)
+      $ 608 "MoveJ"
+      $ 609 "pVLidPlaceApp" "breakAfter"
+      movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=17.453292519943293, v=3.141592653589793)
+      $ 610 "Comment"
+      # Comment
+    elif (10 == switch_1):
+      $ 611 "Case 10"
+      $ 612 "PlaceFinishedSample"
+      $ 613 "Set"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      $ 614 "GripperOff()"
+      GripperOff()
+      $ 615 "PickLocked"
+      $ 616 "vp_CHECKPOINT≔pVLidPlaceAbv"
+      global vp_CHECKPOINT=pVLidPlaceAbv_p
+      $ 617 "MoveL"
+      $ 618 "pVLidPlaceAbv" "breakAfter"
+      movel(pVLidPlaceAbv_p, a=2.5, v=0.75)
+      $ 619 "MoveL"
+      $ 620 "vpStartPos" "breakAfter"
+      movel(vpStartPos, a=2.5, v=1.0)
+      $ 621 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 622 "GripperOn()"
+      GripperOn()
+      $ 623 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 624 "vpStartPos≔get_actual_tcp_pose()"
+      global vpStartPos= get_actual_tcp_pose ()
+      $ 625 "vpToolTarget≔pose_trans(get_actual_tcp_pose(), p[0,0,-3/1000,0,0,0])"
+      global vpToolTarget= pose_trans ( get_actual_tcp_pose (), p[0,0,-3/1000,0,0,0])
+      $ 626 "MoveL"
+      $ 627 "vpToolTarget" "breakAfter"
+      movel(vpToolTarget, a=2.5, v=0.75, r=0.005)
+      $ 628 "MoveL"
+      $ 629 "pVLidPlaceAbv" "breakAfter"
+      movel(pVLidPlaceAbv_p, a=2.5, v=0.75, r=0.01)
+      $ 630 "MoveJ"
+      $ 631 "pVLidPlaceApp" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+      $ 632 "TransitionMove"
+      $ 633 "vp_CHECKPOINT≔pStackOutAbv"
+      global vp_CHECKPOINT=pStackOutAbv_p
+      $ 634 "MoveJ"
+      $ 635 "pStackOutAbv" "breakAfter"
+      movej(get_inverse_kin(pStackOutAbv_p, qnear=pStackOutAbv_q), a=17.453292519943293, v=3.141592653589793, r=0.02)
+      $ 636 "ManualAssign"
+      $ 637 "If bManualControl"
+      if (bManualControl):
+        $ 638 "iStackOut1≔'how many stack out 1?'"
+        global iStackOut1=request_integer_from_primary_client("how many stack out 1?")
+        $ 639 "iStackOut2≔'how many stack out 2?'"
+        global iStackOut2=request_integer_from_primary_client("how many stack out 2?")
+      end
+      $ 640 "AssignStackOut"
+      $ 641 "vpPlaceStack1≔pose_trans(pStackOutBase1, p[0,0,-1*iStackOut1*fSampleDoneZ,0,0,0])"
+      global vpPlaceStack1= pose_trans (pStackOutBase1_p, p[0,0,-1*iStackOut1*fSampleDoneZ,0,0,0])
+      $ 642 "vpPlaceStack2≔pose_trans(pStackOutBase2, p[0,0,-1*iStackOut2*fSampleDoneZ,0,0,0])"
+      global vpPlaceStack2= pose_trans (pStackOutBase2_p, p[0,0,-1*iStackOut2*fSampleDoneZ,0,0,0])
+      $ 643 "PlaceStackOut"
+      $ 644 "If iStackOut1≤iStackOut2"
+      if (iStackOut1 <= iStackOut2):
+        $ 645 "StackOut1"
+        $ 646 "vp_CHECKPOINT≔pStackOut1Abv"
+        global vp_CHECKPOINT=pStackOut1Abv_p
+        $ 647 "vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-5/1000,0,0,0])"
+        global vpTargetPos= pose_trans (vpPlaceStack1, p[0,0,-5/1000,0,0,0])
+        $ 648 "MoveL"
+        $ 649 "pStackOut1Abv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pStackOut1Abv_p, a=1.2, v=0.25, r=0.001)
+        $ 650 "MoveL"
+        $ 651 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=2.5, v=0.75)
+        $ 652 "GripperOff()"
+        GripperOff()
+        $ 653 "If bManualControl"
+        if (bManualControl):
+          $ 654 "iStackOut1≔iStackOut1+1"
+          global iStackOut1=iStackOut1+1
+        end
+        $ 655 "vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-25/1000,0,0,0])"
+        global vpTargetPos= pose_trans (vpPlaceStack1, p[0,0,-25/1000,0,0,0])
+        $ 656 "MoveL"
+        $ 657 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=1.2, v=0.25)
+        $ 658 "GripperOn()"
+        GripperOn()
+        $ 659 "MoveL"
+        $ 660 "pStackOut1Abv" "breakAfter"
+        movel(pStackOut1Abv_p, a=1.2, v=0.25)
+      else:
+        $ 661 "Else" "noBreak"
+        $ 662 "StackOut2"
+        $ 663 "vp_CHECKPOINT≔pStackOut2Abv"
+        global vp_CHECKPOINT=pStackOut2Abv_p
+        $ 664 "vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-5/1000,0,0,0])"
+        global vpTargetPos= pose_trans (vpPlaceStack2, p[0,0,-5/1000,0,0,0])
+        $ 665 "MoveJ"
+        $ 666 "pStackOut2Abv" "breakAfter"
+        movej(get_inverse_kin(pStackOut2Abv_p, qnear=pStackOut2Abv_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 667 "MoveL"
+        $ 668 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=1.2, v=0.25)
+        $ 669 "GripperOff()"
+        GripperOff()
+        $ 670 "If bManualControl"
+        if (bManualControl):
+          $ 671 "iStackOut2≔iStackOut2+1"
+          global iStackOut2=iStackOut2+1
+        end
+        $ 672 "vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-25/1000,0,0,0])"
+        global vpTargetPos= pose_trans (vpPlaceStack2, p[0,0,-25/1000,0,0,0])
+        $ 673 "MoveL"
+        $ 674 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=1.2, v=0.25)
+        $ 675 "GripperOn()"
+        GripperOn()
+        $ 676 "MoveL"
+        $ 677 "pStackOut2Abv" "breakAfter"
+        movel(pStackOut2Abv_p, a=1.2, v=0.25)
+        $ 678 "pStackOutAbv" "breakAfter"
+        movel(pStackOutAbv_p, a=1.2, v=0.25)
+      end
+      $ 679 "Comment"
+      # Comment
+      $ 680 "MoveJ"
+      $ 681 "pHomeTransit" "breakAfter"
+      movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=13.089969389957473, v=3.141592653589793, r=0.05)
+      $ 682 "pHome" "breakAfter"
+      movej(get_inverse_kin(pHome_p, qnear=pHome_q), a=13.089969389957473, v=3.141592653589793)
+    elif (11 == switch_1):
+      $ 683 "Case 11"
+      $ 684 "DiscardSample"
+      $ 685 "PickLocked"
+      $ 686 "vp_CHECKPOINT≔pVLidPlaceAbv"
+      global vp_CHECKPOINT=pVLidPlaceAbv_p
+      $ 687 "MoveL"
+      $ 688 "pVLidPlaceAbv" "breakAfter"
+      movel(pVLidPlaceAbv_p, a=2.5, v=0.75)
+      $ 689 "MoveL"
+      $ 690 "vpStartPos" "breakAfter"
+      movel(vpStartPos, a=2.5, v=1.0)
+      $ 691 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 692 "GripperOn()"
+      GripperOn()
+      $ 693 "Wait is_steady()"
+      while (not(is_steady())):
+        sync()
+      end
+      $ 694 "vpStartPos≔get_actual_tcp_pose()"
+      global vpStartPos= get_actual_tcp_pose ()
+      $ 695 "vpToolTarget≔pose_trans(get_actual_tcp_pose(), p[0,0,-25.4/1000,0,0,0])"
+      global vpToolTarget= pose_trans ( get_actual_tcp_pose (), p[0,0,-25.4/1000,0,0,0])
+      $ 696 "MoveL"
+      $ 697 "vpToolTarget" "breakAfter"
+      movel(vpToolTarget, a=2.5, v=0.75, r=0.01)
+      $ 698 "MoveJ"
+      $ 699 "pVLidPlaceApp" "breakAfter"
+      set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+      movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+      $ 700 "MoveJ"
+      $ 701 "pHomeTransit" "breakAfter"
+      movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 702 "DiscardSample"
+      $ 703 "vp_CHECKPOINT≔pLidRmvAbv"
+      global vp_CHECKPOINT=pLidRmvAbv_p
+      $ 704 "MoveJ"
+      $ 705 "pDiscardSample" "breakAfter"
+      movej(get_inverse_kin(pDiscardSample_p, qnear=pDiscardSample_q), a=17.453292519943293, v=3.141592653589793)
+      $ 706 "Wait: 0.25"
+      sleep(0.25)
+      $ 707 "GripperOff()"
+      GripperOff()
+      $ 708 "Wait: 0.5"
+      sleep(0.5)
+      $ 709 "GripperOn()"
+      GripperOn()
+      $ 710 "MoveJ"
+      $ 711 "pHomeTransit" "breakAfter"
+      movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 712 "MoveJ"
+      $ 713 "pHome" "breakAfter"
+      movej(get_inverse_kin(pHome_p, qnear=pHome_q), a=1.3962634015954636, v=1.0471975511965976)
+      $ 714 "Comment"
+      # Comment
+    elif (12 == switch_1):
+      $ 715 "Case 12"
+    elif (13 == switch_1):
+      $ 813 "Case 13"
+      $ 814 "Wait: 1.0"
+      sleep(1.0)
+      $ 815 "powerdown()"
+      powerdown()
+    elif (15 == switch_1):
+      $ 816 "Case 15"
+      $ 1015 "TestCycle"
+      $ 1016 "iCycle≔'cycle'"
+      global iCycle=request_integer_from_primary_client("cycle")
+      $ 1017 "iStackOut1≔'stack1'"
+      global iStackOut1=request_integer_from_primary_client("stack1")
+      $ 1018 "iStackOut2≔'stack2'"
+      global iStackOut2=request_integer_from_primary_client("stack2")
+      $ 1019 "Loop iCycle>0"
+      while (iCycle>0):
+        $ 1020 "iStackIn1Agar≔iCycle-1"
+        global iStackIn1Agar=iCycle-1
+        $ 1021 "iStackIn2Vision≔iCycle-1"
+        global iStackIn2Vision=iCycle-1
+        $ 1022 "Home"
+        $ 1023 "If point_dist(get_actual_tcp_pose(),pHome)≥point_dist(get_actual_tcp_pose(),pHomeTransit)"
+        if (point_dist( get_actual_tcp_pose (),pHome_p) >= point_dist( get_actual_tcp_pose (),pHomeTransit_p)):
+          $ 1024 "MoveJ"
+          $ 1025 "pHomeTransit" "breakAfter"
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=17.453292519943293, v=3.141592653589793)
+        end
+        $ 1026 "MoveJ"
+        $ 1027 "pHome" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pHome_p, qnear=pHome_q), a=17.453292519943293, v=3.141592653589793)
+        $ 1028 "ResetWrist"
+        $ 1029 "aJointAngles≔get_actual_joint_positions()"
+        global aJointAngles= get_actual_joint_positions ()
+        $ 1030 "aJointAngles[5]=d2r(47.48)"
+        aJointAngles[5]=d2r(47.48)
+        $ 1031 "MoveJ"
+        $ 1032 "aJointAngles" "breakAfter"
+        movej(aJointAngles, a=1.3962634015954636, v=1.0471975511965976)
+        $ 1033 "Comment"
+        # Comment
+        $ 1034 "VisionLid"
+        $ 1035 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1036 "VisionLidPick"
+        $ 1037 "GripperOn(0,0)"
+        GripperOn(0,0)
+        $ 1038 "ApproachMag"
+        $ 1039 "MoveJ"
+        $ 1040 "pMagPickAbv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pMagPickAbv_p, qnear=pMagPickAbv_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+        $ 1041 "MoveL"
+        $ 1042 "pVisionStackTop" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pVisionStackTop_p, a=2.5, v=0.75)
+        $ 1049 "AssignVisionLid"
+        $ 1050 "vpVisionLidPick≔pose_trans(pVisionLidBaseZ, p[0,0, -1*fVisionLidZ*iStackIn2Vision, 0, 0, 0])"
+        global vpVisionLidPick= pose_trans (pVisionLidBaseZ_p, p[0,0, -1*fVisionLidZ*iStackIn2Vision, 0, 0, 0])
+        $ 1051 "vpTargetApp≔pose_trans(vpVisionLidPick, p[0,0, -25/1000, 0, 0, 0])"
+        global vpTargetApp= pose_trans (vpVisionLidPick, p[0,0, -25/1000, 0, 0, 0])
+        $ 1068 "PickVisionLid"
+        $ 1069 "MoveL"
+        $ 1070 "vpTargetApp" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(vpTargetApp, a=2.5, v=0.75)
+        $ 1071 "GripperOff()"
+        GripperOff()
+        $ 1072 "MoveL"
+        $ 1073 "vpVisionLidPick" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(vpVisionLidPick, a=2.5, v=0.75)
+        $ 1074 "GripperOn()"
+        GripperOn()
+        $ 1075 "If iStackIn2Vision>0"
+        if (iStackIn2Vision>0):
+          $ 1076 "Separate"
+          $ 1077 "vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-1/1000,0,0,0])"
+          global vpTargetPos= pose_trans (vpVisionLidPick, p[0,0,-1/1000,0,0,0])
+          $ 1078 "MoveL"
+          $ 1079 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=1.2, v=0.25)
+          $ 1080 "vpTargetPos≔pose_trans(vpTargetPos, p[0,0,0,0,-d2r(5),0])"
+          global vpTargetPos= pose_trans (vpTargetPos, p[0,0,0,0,-d2r(5),0])
+          $ 1081 "MoveL"
+          $ 1082 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=1.2, v=0.1)
+          $ 1083 "vpTargetPos≔pose_trans(vpVisionLidPick, p[0,0,-10/1000,0,0,0])"
+          global vpTargetPos= pose_trans (vpVisionLidPick, p[0,0,-10/1000,0,0,0])
+          $ 1084 "MoveL"
+          $ 1085 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=1.2, v=0.25)
+        end
+        $ 1086 "ExitVision"
+        $ 1087 "MoveL"
+        $ 1088 "pVisionStackTop" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pVisionStackTop_p, a=1.2, v=0.75, r=0.01)
+        $ 1089 "Comment"
+        # Comment
+        $ 1090 "VisionLidPlace"
+        $ 1091 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1092 "MoveJ"
+        $ 1093 "pVLidPlaceApp" "breakAfter"
+        movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=13.089969389957473, v=3.141592653589793, r=0.05)
+        $ 1094 "MoveJ"
+        $ 1095 "pVLidPlaceAbv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pVLidPlaceAbv_p, qnear=pVLidPlaceAbv_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 1096 "MoveL"
+        $ 1097 "pVLidPlace" "breakAfter"
+        global move_thread_flag_1097=0
+        thread move_thread_1097():
+          enter_critical
+          move_thread_flag_1097 = 1
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movel(pVLidPlace_p, a=0.1, v=0.05)
+          move_thread_flag_1097 = 2
+          exit_critical
+        end
+        move_thread_flag_1097 = 0
+        move_thread_han_1097 = run move_thread_1097()
+        while (True):
+          local targetTcpDirection=get_target_tcp_speed()
+          local stepsToRetract=tool_contact(direction=targetTcpDirection)
+          if (stepsToRetract > 0):
+            kill move_thread_han_1097
+            stopl(3.0)
+            local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+            local contactPose=get_forward_kin(backTrackMovement)
+            local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+            local retractTo=contactPose
+            if (norm(posDir) > 1e-6):
+              local normalizedPosDir=normalize(posDir)
+              local additionalRetraction=p[normalizedPosDir[0] * 0.0, normalizedPosDir[1] * 0.0, normalizedPosDir[2] * 0.0, 0, 0, 0]
+              retractTo = pose_sub(contactPose, additionalRetraction)
+            end
+            movel(retractTo, a=3.0, v=0.1)
+            $ 1098 "Until (tool_contact_detection)"
+            break
+          end
+          sleep(1.0E-10)
+          if (move_thread_flag_1097 > 1):
+            join move_thread_han_1097
+            break
+          end
+          sync()
+        end
+        $ 1099 "GripperOff()"
+        GripperOff()
+        $ 1100 "MoveL"
+        $ 1101 "pVLidPlaceAbv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pVLidPlaceAbv_p, a=2.5, v=0.75, r=0.01)
+        $ 1102 "MoveJ"
+        $ 1103 "pVLidPlaceApp" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=17.453292519943293, v=3.141592653589793)
+        $ 1104 "Comment"
+        # Comment
+        $ 1105 "AgarPlate"
+        $ 1106 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1107 "AgarPlatePick"
+        $ 1108 "GripperOn(0,0)"
+        GripperOn(0,0)
+        $ 1109 "ApproachMag"
+        $ 1110 "MoveJ"
+        $ 1111 "pMagPickAbv" "breakAfter"
+        movej(get_inverse_kin(pMagPickAbv_p, qnear=pMagPickAbv_q), a=1.3962634015954636, v=1.0471975511965976, r=0.001)
+        $ 1112 "MoveL"
+        $ 1113 "pAgarStackTop" "breakAfter"
+        movel(pAgarStackTop_p, a=2.5, v=0.75)
+        $ 1120 "AssignAgar"
+        $ 1121 "vpAgarPlatePick≔pose_trans(pAgarPlateBaseZ, p[0,0, -1*fAgarDishZ*iStackIn1Agar, 0, 0, 0])"
+        global vpAgarPlatePick= pose_trans (pAgarPlateBaseZ_p, p[0,0, -1*fAgarDishZ*iStackIn1Agar, 0, 0, 0])
+        $ 1122 "vpTargetApp≔pose_trans(vpAgarPlatePick, p[0,0, -25/1000, 0, 0, 0])"
+        global vpTargetApp= pose_trans (vpAgarPlatePick, p[0,0, -25/1000, 0, 0, 0])
+        $ 1138 "PickAgar"
+        $ 1139 "MoveL"
+        $ 1140 "vpTargetApp" "breakAfter"
+        movel(vpTargetApp, a=2.5, v=0.75)
+        $ 1141 "GripperOff()"
+        GripperOff()
+        $ 1142 "MoveL"
+        $ 1143 "vpAgarPlatePick" "breakAfter"
+        movel(vpAgarPlatePick, a=2.5, v=0.75)
+        $ 1144 "GripperOn()"
+        GripperOn()
+        $ 1145 "ExitAgar"
+        $ 1146 "MoveL"
+        $ 1147 "pAgarStackTop" "breakAfter"
+        movel(pAgarStackTop_p, a=1.2, v=0.75, r=0.001)
+        $ 1148 "MoveJ"
+        $ 1149 "pMagPickAbv" "breakAfter"
+        movej(get_inverse_kin(pMagPickAbv_p, qnear=pMagPickAbv_q), a=17.453292519943293, v=3.141592653589793, r=0.01)
+        $ 1150 "Comment"
+        # Comment
+        $ 1151 "AgarPlateRegrip"
+        $ 1152 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1153 "MoveJ"
+        $ 1154 "pReGripAbv" "breakAfter"
+        movej(get_inverse_kin(pReGripAbv_p, qnear=pReGripAbv_q), a=13.089969389957473, v=3.141592653589793, r=0.01)
+        $ 1155 "vpReGripDrop≔pose_trans(pReGripPlace, p[0,0,-5/1000,0,0,0])"
+        global vpReGripDrop= pose_trans (pReGripPlace_p, p[0,0,-5/1000,0,0,0])
+        $ 1156 "MoveL"
+        $ 1157 "vpReGripDrop" "breakAfter"
+        global move_thread_flag_1157=0
+        thread move_thread_1157():
+          enter_critical
+          move_thread_flag_1157 = 1
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movel(vpReGripDrop, a=1.2, v=0.25)
+          move_thread_flag_1157 = 2
+          exit_critical
+        end
+        move_thread_flag_1157 = 0
+        move_thread_han_1157 = run move_thread_1157()
+        while (True):
+          local targetTcpDirection=get_target_tcp_speed()
+          local stepsToRetract=tool_contact(direction=targetTcpDirection)
+          if (stepsToRetract > 0):
+            kill move_thread_han_1157
+            stopl(3.0)
+            local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+            local contactPose=get_forward_kin(backTrackMovement)
+            local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+            local retractTo=contactPose
+            if (norm(posDir) > 1e-6):
+              local normalizedPosDir=normalize(posDir)
+              local additionalRetraction=p[normalizedPosDir[0] * 0.0, normalizedPosDir[1] * 0.0, normalizedPosDir[2] * 0.0, 0, 0, 0]
+              retractTo = pose_sub(contactPose, additionalRetraction)
+            end
+            movel(retractTo, a=3.0, v=0.1)
+            $ 1158 "Until (tool_contact_detection)"
+            break
+          end
+          sleep(1.0E-10)
+          if (move_thread_flag_1157 > 1):
+            join move_thread_han_1157
+            break
+          end
+          sync()
+        end
+        $ 1159 "Wait is_steady()"
+        while (not(is_steady())):
+          sync()
+        end
+        $ 1160 "GripperOff()"
+        GripperOff()
+        $ 1161 "Set"
+        set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+        $ 1162 "MoveL"
+        $ 1163 "pReGripPlace" "breakAfter"
+        set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+        movel(pReGripPlace_p, a=1.2, v=0.25)
+        $ 1164 "If bLaserSensor"
+        global thread_flag_1164=0
+        thread Thread_if_1164():
+          $ 1165 "SeekAllignmentHole"
+          $ 1166 "Set"
+          set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+          $ 1167 "Move 1"
+          $ 1168 "vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(181)])"
+          global vpTargetPos= pose_trans (pReGripPlace_p, p[0, 0, 0, 0, 0, d2r(181)])
+          $ 1169 "MoveL"
+          $ 1170 "fMoveLPose≔vpTargetPos"
+          global fMoveLPose=vpTargetPos
+          $ 1171 "movel(fMoveLPose, fMoveLAccel, fMoveLSpd)"
+          movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+          $ 1172 "Move 1.5"
+          $ 1173 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0, 0, 0, 0, 0, d2r(-3)])"
+          global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0, 0, 0, 0, 0, d2r(-3)])
+          $ 1174 "MoveL"
+          $ 1175 "fMoveLPose≔vpTargetPos"
+          global fMoveLPose=vpTargetPos
+          $ 1176 "movel(fMoveLPose, fMoveLAccel, fMoveLSpd)"
+          movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+          $ 1177 "stopl(10000)"
+          stopl(10000)
+          $ 1178 "Reset"
+          $ 1179 "MoveJ"
+          $ 1180 "pReGripPlace" "breakAfter"
+          set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+          movej(get_inverse_kin(pReGripPlace_p, qnear=pReGripPlace_q), a=17.453292519943293, v=3.141592653589793)
+          $ 1181 "Move 2"
+          $ 1182 "vpTargetPos≔pose_trans(pReGripPlace, p[0, 0, 0, 0, 0, d2r(-181)])"
+          global vpTargetPos= pose_trans (pReGripPlace_p, p[0, 0, 0, 0, 0, d2r(-181)])
+          $ 1183 "MoveL"
+          $ 1184 "fMoveLPose≔vpTargetPos"
+          global fMoveLPose=vpTargetPos
+          $ 1185 "movel(fMoveLPose, fMoveLAccel, fMoveLSpd)"
+          movel(fMoveLPose, fMoveLAccel, fMoveLSpd)
+          $ 1186 "Reset"
+          $ 1187 "MoveJ"
+          $ 1188 "pReGripPlace" "breakAfter"
+          set_tcp(p[0.0,0.0,0.237,0.0,0.0,-1.5708])
+          movej(get_inverse_kin(pReGripPlace_p, qnear=pReGripPlace_q), a=17.453292519943293, v=3.141592653589793)
+          thread_flag_1164 = 1
+        end
+        if (bLaserSensor):
+          global thread_handler_1164=run Thread_if_1164()
+          while (thread_flag_1164 == 0):
+            if not(bLaserSensor):
+              kill thread_handler_1164
+              thread_flag_1164 = 2
+            else:
+              sync()
+            end
+          end
+        else:
+          thread_flag_1164 = 2
+        end
+        if (thread_flag_1164 == 2):
+          $ 1189 "Else" "noBreak"
+          $ 1190 "stopl(1000)"
+          stopl(1000)
+        end
+        $ 1191 "GripOffset"
+        $ 1192 "vpTargetPos≔pose_trans(vpLaserPose, p[0, 0, -5.8/1000, 0, 0, d2r(90)])"
+        global vpTargetPos= pose_trans (vpLaserPose, p[0, 0, -5.8/1000, 0, 0, d2r(90)])
+        $ 1193 "MoveL"
+        $ 1194 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=2.5, v=1.0)
+        $ 1195 "Wait is_steady()"
+        while (not(is_steady())):
+          sync()
+        end
+        $ 1196 "GripperOn()"
+        GripperOn()
+        $ 1197 "Raise"
+        $ 1198 "vpTargetPos≔pose_trans(vpTargetPos, p[0, 0, -12/1000, 0, 0, 0])"
+        global vpTargetPos= pose_trans (vpTargetPos, p[0, 0, -12/1000, 0, 0, 0])
+        $ 1199 "MoveL"
+        $ 1200 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=1.2, v=0.25)
+        $ 1201 "Set"
+        set_tcp(p[0.0,0.0,0.24765,0.0,0.0,-1.5708])
+        $ 1202 "MoveJ"
+        $ 1203 "pReGripAbv" "breakAfter"
+        movej(get_inverse_kin(pReGripAbv_p, qnear=pReGripAbv_q), a=40.0, v=3.141592653589793)
+        $ 1204 "Comment"
+        # Comment
+        $ 1205 "AgarPlateLid"
+        $ 1206 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1207 "AgarPlateLidRemoval"
+        $ 1208 "MoveJ"
+        $ 1209 "pLidRmvAbv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pLidRmvAbv_p, qnear=pLidRmvAbv_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+        $ 1210 "MoveL"
+        $ 1211 "pLidRmvFront" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pLidRmvFront_p, a=1.2, v=0.125, r=0.005)
+        $ 1212 "MoveL"
+        $ 1213 "pLidRmvIn" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pLidRmvIn_p, a=1.2, v=0.125, r=0.001)
+        $ 1214 "MoveL"
+        $ 1215 "pLidRmvAbv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movel(pLidRmvAbv_p, a=1.2, v=0.125, r=0.01)
+        $ 1216 "MoveJ"
+        $ 1217 "pHomeTransit" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976)
+        $ 1218 "Comment"
+        # Comment
+        $ 1219 "Comment"
+        # Comment
+        $ 1278 "LockAgarToVisionLid"
+        $ 1279 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1280 "ApproachFixture"
+        $ 1281 "If iStateOut≟5 or iStateOut≟6"
+        if (iStateOut == 5  or  iStateOut == 6):
+          $ 1282 "MoveJ"
+          $ 1283 "pLHandBelow" "breakAfter"
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movej(get_inverse_kin(pLHandBelow_p, qnear=pLHandBelow_q), a=1.3962634015954636, v=1.0471975511965976, r=0.05)
+          $ 1284 "MoveJ"
+          $ 1285 "pHomeTransit" "breakAfter"
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+        else:
+          $ 1286 "Else" "noBreak"
+          $ 1287 "MoveJ"
+          $ 1288 "pHomeTransit" "breakAfter"
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+        end
+        $ 1289 "MoveJ"
+        $ 1290 "pVLidPlaceApp" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=17.453292519943293, v=3.141592653589793, r=0.05)
+        $ 1291 "MoveJ"
+        $ 1292 "pVLidPlaceAbv" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pVLidPlaceAbv_p, qnear=pVLidPlaceAbv_q), a=17.453292519943293, v=3.141592653589793)
+        $ 1293 "ZeroFT"
+        $ 1294 "stopj(1)"
+        stopj(1)
+        $ 1295 "Wait: 0.25"
+        sleep(0.25)
+        $ 1296 "zero_ftsensor()"
+        zero_ftsensor()
+        $ 1297 "Wait: 0.25"
+        sleep(0.25)
+        $ 1298 "DownTillContact"
+        $ 1299 "MoveL"
+        $ 1300 "pAgarLock" "breakAfter"
+        global move_thread_flag_1300=0
+        thread move_thread_1300():
+          enter_critical
+          move_thread_flag_1300 = 1
+          movel(pAgarLock_p, a=0.125, v=0.01)
+          move_thread_flag_1300 = 2
+          exit_critical
+        end
+        move_thread_flag_1300 = 0
+        move_thread_han_1300 = run move_thread_1300()
+        while (True):
+          local targetTcpDirection=get_target_tcp_speed()
+          local stepsToRetract=tool_contact(direction=targetTcpDirection)
+          if (stepsToRetract > 0):
+            kill move_thread_han_1300
+            stopl(3.0)
+            local backTrackMovement=get_actual_joint_positions_history(stepsToRetract)
+            local contactPose=get_forward_kin(backTrackMovement)
+            local posDir=[targetTcpDirection[0],targetTcpDirection[1],targetTcpDirection[2]]
+            local retractTo=contactPose
+            if (norm(posDir) > 1e-6):
+              local normalizedPosDir=normalize(posDir)
+              local additionalRetraction=p[normalizedPosDir[0] * 0.001, normalizedPosDir[1] * 0.001, normalizedPosDir[2] * 0.001, 0, 0, 0]
+              retractTo = pose_sub(contactPose, additionalRetraction)
+            end
+            movel(retractTo, a=3.0, v=0.1)
+            $ 1301 "Until (tool_contact_detection)"
+            $ 1302 "Force"
+            sleep(0.02)
+            zero_ftsensor()
+            force_mode(p[0.0,0.0,0.0,0.0,0.0,0.0], [0, 0, 1, 0, 0, 0], [0.0, 0.0, -2.0, 0.0, 0.0, 0.0], 2, [0.1, 0.1, 0.15, 0.3490658503988659, 0.3490658503988659, 0.3490658503988659])
+            $ 1303 "Seek" "noBreak"
+            $ 1304 "vpToolActual≔get_actual_tcp_pose()" "noBreak"
+            global vpToolActual= get_actual_tcp_pose ()
+            $ 1305 "fSeekMM≔1/1000" "noBreak"
+            global fSeekMM=1/1000
+            $ 1306 "vpTargetPos≔pose_trans(vpToolActual, p[0,-fSeekMM,0,0,0,0])" "noBreak"
+            global vpTargetPos= pose_trans (vpToolActual, p[0,-fSeekMM,0,0,0,0])
+            $ 1307 "MoveL" "noBreak"
+            $ 1308 "vpTargetPos" "noBreak"
+            movel(vpTargetPos, a=0.12, v=0.01)
+            $ 1309 "vpTargetPos≔pose_trans(vpToolActual, p[fSeekMM,0,0,0,0,0])" "noBreak"
+            global vpTargetPos= pose_trans (vpToolActual, p[fSeekMM,0,0,0,0,0])
+            $ 1310 "MoveL" "noBreak"
+            $ 1311 "vpTargetPos" "noBreak"
+            movel(vpTargetPos, a=0.12, v=0.01)
+            $ 1312 "vpTargetPos≔pose_trans(vpToolActual, p[0,fSeekMM,0,0,0,0])" "noBreak"
+            global vpTargetPos= pose_trans (vpToolActual, p[0,fSeekMM,0,0,0,0])
+            $ 1313 "MoveL" "noBreak"
+            $ 1314 "vpTargetPos" "noBreak"
+            movel(vpTargetPos, a=0.12, v=0.01)
+            $ 1315 "vpTargetPos≔pose_trans(vpToolActual, p[-fSeekMM,0,0,0,0,0])" "noBreak"
+            global vpTargetPos= pose_trans (vpToolActual, p[-fSeekMM,0,0,0,0,0])
+            $ 1316 "MoveL" "noBreak"
+            $ 1317 "vpTargetPos" "noBreak"
+            movel(vpTargetPos, a=0.12, v=0.01)
+            end_force_mode()
+            stopl(5.0)
+            $ 1318 "end_force_mode()"
+            end_force_mode()
+            $ 1319 "vpToolTarget≔pose_trans(pAgarLock, p[0,0,0,0,0,-d2r(24)])"
+            global vpToolTarget= pose_trans (pAgarLock_p, p[0,0,0,0,0,-d2r(24)])
+            $ 1320 "MoveL"
+            $ 1321 "vpToolTarget" "breakAfter"
+            global move_thread_flag_1321=0
+            thread move_thread_1321():
+              enter_critical
+              move_thread_flag_1321 = 1
+              movel(vpToolTarget, a=0.25, v=0.05)
+              move_thread_flag_1321 = 2
+              exit_critical
+            end
+            move_thread_flag_1321 = 0
+            move_thread_han_1321 = run move_thread_1321()
+            while (True):
+              sleep(1.0E-10)
+              if (move_thread_flag_1321 > 1):
+                join move_thread_han_1321
+                break
+              end
+              sync()
+            end
+            break
+          end
+          sleep(1.0E-10)
+          if (move_thread_flag_1300 > 1):
+            join move_thread_han_1300
+            $ 1323 "Until (reached_waypoint)"
+            break
+          end
+          sync()
+        end
+        $ 1324 "Wait is_steady()"
+        while (not(is_steady())):
+          sync()
+        end
+        $ 1325 "Lock"
+        $ 1326 "'40 degrees'"
+        # '40 degrees'
+        $ 1327 "vpTargetPos≔pose_trans(pAgarLock, p[0,0,3/1000,0,0,d2r(40)])"
+        global vpTargetPos= pose_trans (pAgarLock_p, p[0,0,3/1000,0,0,d2r(40)])
+        $ 1328 "Force"
+        sleep(0.02)
+        zero_ftsensor()
+        force_mode(p[0.0,0.0,0.0,0.0,0.0,0.0], [0, 0, 1, 0, 0, 1], [0.0, 0.0, -30.0, 0.0, 0.0, -20.0], 2, [0.1, 0.1, 0.25, 0.3490658503988659, 0.3490658503988659, 1.0471975511965976])
+        $ 1329 "MoveL" "noBreak"
+        $ 1330 "vpTargetPos" "noBreak"
+        movel(vpTargetPos, a=1.2, v=0.125)
+        end_force_mode()
+        stopl(5.0)
+        $ 1331 "end_force_mode()"
+        end_force_mode()
+        $ 1332 "Wait is_steady()"
+        while (not(is_steady())):
+          sync()
+        end
+        $ 1333 "ReleasePressure"
+        $ 1334 "vpTargetPos≔pose_trans(get_actual_tcp_pose(), p[0,0,-2/1000,0,0,0])"
+        global vpTargetPos= pose_trans ( get_actual_tcp_pose (), p[0,0,-2/1000,0,0,0])
+        $ 1335 "MoveL"
+        $ 1336 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=0.5, v=0.05)
+        $ 1337 "vpTargetPos≔pose_trans(pAgarLock, p[0,0,0,0,0,d2r(90)])"
+        global vpTargetPos= pose_trans (pAgarLock_p, p[0,0,0,0,0,d2r(90)])
+        $ 1338 "MoveL"
+        $ 1339 "vpTargetPos" "breakAfter"
+        movel(vpTargetPos, a=2.5, v=0.75)
+        $ 1341 "vpStartPos≔pose_trans(vpTargetPos, p[0,0,-1/1000,0,0,0])"
+        global vpStartPos= pose_trans (vpTargetPos, p[0,0,-1/1000,0,0,0])
+        $ 1343 "GripperOff()"
+        GripperOff()
+        $ 1344 "MoveAwayForDataMatrix"
+        $ 1345 "MoveL"
+        $ 1346 "pVLidPlaceAbv" "breakAfter"
+        movel(pVLidPlaceAbv_p, a=2.5, v=0.75, r=0.01)
+        $ 1347 "MoveJ"
+        $ 1348 "pVLidPlaceApp" "breakAfter"
+        movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=17.453292519943293, v=3.141592653589793)
+        $ 1349 "Comment"
+        # Comment
+        $ 1350 "PlaceFinishedSample"
+        $ 1351 "Set"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        $ 1352 "GripperOff()"
+        GripperOff()
+        $ 1353 "PickLocked"
+        $ 1354 "MoveL"
+        $ 1355 "pVLidPlaceAbv" "breakAfter"
+        movel(pVLidPlaceAbv_p, a=2.5, v=0.75)
+        $ 1356 "MoveL"
+        $ 1357 "vpStartPos" "breakAfter"
+        movel(vpStartPos, a=2.5, v=1.0)
+        $ 1358 "Wait is_steady()"
+        while (not(is_steady())):
+          sync()
+        end
+        $ 1359 "GripperOn()"
+        GripperOn()
+        $ 1360 "Wait is_steady()"
+        while (not(is_steady())):
+          sync()
+        end
+        $ 1361 "vpStartPos≔get_actual_tcp_pose()"
+        global vpStartPos= get_actual_tcp_pose ()
+        $ 1362 "vpToolTarget≔pose_trans(get_actual_tcp_pose(), p[0,0,-3/1000,0,0,0])"
+        global vpToolTarget= pose_trans ( get_actual_tcp_pose (), p[0,0,-3/1000,0,0,0])
+        $ 1363 "MoveL"
+        $ 1364 "vpToolTarget" "breakAfter"
+        movel(vpToolTarget, a=2.5, v=0.75, r=0.005)
+        $ 1365 "MoveL"
+        $ 1366 "pVLidPlaceAbv" "breakAfter"
+        movel(pVLidPlaceAbv_p, a=2.5, v=0.75, r=0.01)
+        $ 1367 "MoveJ"
+        $ 1368 "pVLidPlaceApp" "breakAfter"
+        set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+        movej(get_inverse_kin(pVLidPlaceApp_p, qnear=pVLidPlaceApp_q), a=1.3962634015954636, v=1.0471975511965976, r=0.01)
+        $ 1369 "TransitionMove"
+        $ 1370 "MoveJ"
+        $ 1371 "pStackOutAbv" "breakAfter"
+        movej(get_inverse_kin(pStackOutAbv_p, qnear=pStackOutAbv_q), a=17.453292519943293, v=3.141592653589793, r=0.02)
+        $ 1376 "AssignStackOut"
+        $ 1377 "vpPlaceStack1≔pose_trans(pStackOutBase1, p[0,0,-1*iStackOut1*fSampleDoneZ,0,0,0])"
+        global vpPlaceStack1= pose_trans (pStackOutBase1_p, p[0,0,-1*iStackOut1*fSampleDoneZ,0,0,0])
+        $ 1378 "vpPlaceStack2≔pose_trans(pStackOutBase2, p[0,0,-1*iStackOut2*fSampleDoneZ,0,0,0])"
+        global vpPlaceStack2= pose_trans (pStackOutBase2_p, p[0,0,-1*iStackOut2*fSampleDoneZ,0,0,0])
+        $ 1379 "PlaceStackOut"
+        $ 1380 "If iStackOut1≤iStackOut2"
+        if (iStackOut1 <= iStackOut2):
+          $ 1381 "StackOut1"
+          $ 1382 "vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-5/1000,0,0,0])"
+          global vpTargetPos= pose_trans (vpPlaceStack1, p[0,0,-5/1000,0,0,0])
+          $ 1383 "MoveL"
+          $ 1384 "pStackOut1Abv" "breakAfter"
+          set_tcp(p[0.0,0.0,0.24273,0.0,0.0,-1.5708])
+          movel(pStackOut1Abv_p, a=1.2, v=0.25, r=0.001)
+          $ 1387 "MoveL"
+          $ 1388 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=2.5, v=0.75)
+          $ 1389 "GripperOff()"
+          GripperOff()
+          $ 1390 "If bManualControl"
+          if (bManualControl):
+            $ 1391 "iStackOut1≔iStackOut1+1"
+            global iStackOut1=iStackOut1+1
+          end
+          $ 1392 "vpTargetPos≔pose_trans(vpPlaceStack1, p[0,0,-25/1000,0,0,0])"
+          global vpTargetPos= pose_trans (vpPlaceStack1, p[0,0,-25/1000,0,0,0])
+          $ 1393 "MoveL"
+          $ 1394 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=1.2, v=0.25)
+          $ 1395 "GripperOn()"
+          GripperOn()
+          $ 1396 "MoveL"
+          $ 1397 "pStackOut1Abv" "breakAfter"
+          movel(pStackOut1Abv_p, a=1.2, v=0.25)
+        else:
+          $ 1398 "Else" "noBreak"
+          $ 1399 "StackOut2"
+          $ 1400 "vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-5/1000,0,0,0])"
+          global vpTargetPos= pose_trans (vpPlaceStack2, p[0,0,-5/1000,0,0,0])
+          $ 1401 "MoveJ"
+          $ 1402 "pStackOut2Abv" "breakAfter"
+          movej(get_inverse_kin(pStackOut2Abv_p, qnear=pStackOut2Abv_q), a=1.3962634015954636, v=1.0471975511965976)
+          $ 1403 "MoveL"
+          $ 1404 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=1.2, v=0.25)
+          $ 1405 "GripperOff()"
+          GripperOff()
+          $ 1406 "If bManualControl"
+          if (bManualControl):
+            $ 1407 "iStackOut2≔iStackOut2+1"
+            global iStackOut2=iStackOut2+1
+          end
+          $ 1408 "vpTargetPos≔pose_trans(vpPlaceStack2, p[0,0,-25/1000,0,0,0])"
+          global vpTargetPos= pose_trans (vpPlaceStack2, p[0,0,-25/1000,0,0,0])
+          $ 1409 "MoveL"
+          $ 1410 "vpTargetPos" "breakAfter"
+          movel(vpTargetPos, a=1.2, v=0.25)
+          $ 1411 "GripperOn()"
+          GripperOn()
+          $ 1412 "MoveL"
+          $ 1413 "pStackOut2Abv" "breakAfter"
+          movel(pStackOut2Abv_p, a=1.2, v=0.25)
+          $ 1414 "pStackOutAbv" "breakAfter"
+          movel(pStackOutAbv_p, a=1.2, v=0.25)
+        end
+        $ 1415 "Comment"
+        # Comment
+        $ 1416 "MoveJ"
+        $ 1417 "pHomeTransit" "breakAfter"
+        movej(get_inverse_kin(pHomeTransit_p, qnear=pHomeTransit_q), a=13.089969389957473, v=3.141592653589793, r=0.05)
+        $ 1418 "pHome" "breakAfter"
+        movej(get_inverse_kin(pHome_p, qnear=pHome_q), a=13.089969389957473, v=3.141592653589793)
+        $ 1419 "iCycle≔iCycle-1"
+        global iCycle=iCycle-1
+      end
+    else:
+      $ 1648 "Default Case"
+      $ 1649 "Comment"
+      # Comment
+    end
+    $ 1650 "AssignFinishedState"
+    $ 1651 "iStateOut≔iStateIn"
+    global iStateOut=iStateIn
+    $ 1652 "If iStateOut≠0"
+    if (iStateOut != 0):
+      $ 1653 "iLastState≔iStateOut"
+      global iLastState=iStateOut
+    end
+    $ 1654 "If  not bManualControl"
+    if (  not  bManualControl):
+      $ 1655 "Wait iStateIn≠iStateOut"
+      while (not(iStateIn != iStateOut)):
+        sync()
+      end
+    end
+    $ 1656 "sync()"
+    sync()
+  end
+end

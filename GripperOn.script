@@ -1,0 +1,11 @@
+def GripperOn(time1=0.25, time2=0.25):
+	global rGripperOff = 1
+	global rGripperOn = 0
+	global bGripperStatus = False
+	sleep(time1)
+	set_tool_digital_out(rGripperOff, False)
+	set_tool_digital_out(rGripperOn, True)
+	sleep(time2)
+	bGripperStatus = True
+	return bGripperStatus
+end
