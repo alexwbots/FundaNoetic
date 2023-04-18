@@ -11,3 +11,4 @@ Alex:
 3. Probar código de ROS en una pc del lab
 4. Averiguar el tamaño de los cubos para Lynng
 
+
