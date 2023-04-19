@@ -13,7 +13,7 @@ def callback(msg):
 if __name__ == '__main__':
 
   rospy.init_node("testKeyboard")
-
+  # Se crea un suscriptor para el tópico keys
   rospy.Subscriber("/keys", String, callback)
 
   # Loop rate (in Hz)
@@ -21,6 +21,6 @@ if __name__ == '__main__':
   # Continuous execution loop
   while not rospy.is_shutdown():
     # Show the axes and buttons
-    print 'keys:', press_key
+    print('keys:', press_key)
     # Wait for the next iteration
     rate.sleep()
